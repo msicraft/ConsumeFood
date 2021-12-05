@@ -5,8 +5,8 @@ Minecraft Consume Food Plugin
 
 <Plugin Description>
 
-- Possibility to change FoodLevel and Saturion of food
-- Set player hunger and saturation with commands
+- Possibility to change FoodLevel and Saturation of food
+- Set player foodlevel and saturation with commands
 
 <command>
 
