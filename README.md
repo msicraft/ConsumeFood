@@ -10,8 +10,8 @@ Minecraft Consume Food Plugin
 
 (command)
 
-- /hunger <player> <amount>  description: Set Player FoodLevel
-- /saturation <player> <amount>  description:  Set Player Saturation
+- /hunger (player) (amount)  description: Set Player FoodLevel
+- /saturation (player) (amount)  description:  Set Player Saturation
 - /consumefoodreload   description:  Reloaded Consume Food Plugin Config
 
 (permission)  All permissions default to op
