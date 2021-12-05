@@ -2,7 +2,7 @@
 ###############
 #   Command   #
 ###############
-# /hunger <player> <amount>           description: Set Player Hunger
+# /hunger <player> <amount>           description: Set Player FoodLevel
 # /saturation <player> <amount>       description:  Set Player Saturation
 # /consumefoodreload                  description:  Reloaded Consume Food Plugin Config
 ###############
