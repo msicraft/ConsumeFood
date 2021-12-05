@@ -1,0 +1,150 @@
+# config
+###############
+#   Command   #
+###############
+# /hunger <player> <amount>           description: Set Player Hunger
+# /saturation <player> <amount>       description:  Set Player Saturation
+# /consumefoodreload                  description:  Reloaded Consume Food Plugin Config
+###############
+###############
+#  permission #    All permissions default to op
+###############
+# consumefood.sethunger               description: Allow [Consume Food] Plugin Hunger Command
+# consumefood.setsaturation           description: Allow [Consume Food] Plugin Saturation Command
+# consumefood.reload                  description: Allow [Consume Food] Plugin Config reload Command
+###############
+###############
+#    config   #
+###############
+# Set FoodLevel and Saturation values
+# default value = minecraft value
+#
+# Max FoodLevel = 20
+# Max Saturation = 20
+#
+# If the value exceeds 20, the maximum value is applied.
+# FoodLevel is applied as an integer value (ex. A value of 4.5 is applied as 4)
+
+Apple:
+  FoodLevel: 4
+  Saturation: 2.4
+
+Beef:
+  FoodLevel: 3
+  Saturation: 1.8
+
+Beetroot:
+  FoodLevel: 1
+  Saturation: 1.2
+
+Baked_potato:
+  FoodLevel: 5
+  Saturation: 6
+
+Bread:
+  FoodLevel: 5
+  Saturation: 6
+
+Beetroot_Soup:
+  FoodLevel: 6
+  Saturation: 7.2
+
+Chicken:
+  FoodLevel: 2
+  Saturation: 1.2
+
+Cod:
+  FoodLevel: 2
+  Saturation: 0.4
+
+Carrot:
+  FoodLevel: 3
+  Saturation: 3.6
+
+Cooked_Chicken:
+  FoodLevel: 6
+  Saturation: 7.2
+
+Cooked_Rabbit:
+  FoodLevel: 5
+  Saturation: 6
+
+Cooked_Porkchop:
+  FoodLevel: 8
+  Saturation: 12.8
+
+Cooked_Beef:
+  FoodLevel: 8
+  Saturation: 12.8
+
+Cooked_Mutton:
+  FoodLevel: 6
+  Saturation: 9.6
+
+Cooked_Cod:
+  FoodLevel: 5
+  Saturation: 6
+
+Cooked_Salmon:
+  FoodLevel: 6
+  Saturation: 9.6
+
+Cookie:
+  FoodLevel: 2
+  Saturation: 0.5
+
+Dried_Kelp:
+  FoodLevel: 1
+  Saturation: 0.6
+
+Glow_Berries:
+  FoodLevel: 2
+  Saturation: 0.4
+
+Honey_Bottle:
+  FoodLevel: 6
+  Saturation: 1.2
+
+Mutton:
+  FoodLevel: 2
+  Saturation: 1.2
+
+Melon_Slice:
+  FoodLevel: 2
+  Saturation: 1.2
+
+Mushroom_Stew:
+  FoodLevel: 6
+  Saturation: 7.2
+
+Potato:
+  FoodLevel: 1
+  Saturation: 0.6
+
+PorkChop:
+  FoodLevel: 3
+  Saturation: 0.6
+
+Pumpkin_pie:
+  FoodLevel: 8
+  Saturation: 4.8
+
+Rabbit:
+  FoodLevel: 2
+  Saturation: 1.2
+
+Rabbit_Stew:
+  FoodLevel: 10
+  Saturation: 12
+
+Salmon:
+  FoodLevel: 2
+  Saturation: 0.2
+
+Sweet_Berries:
+  FoodLevel: 1
+  Saturation: 0
+
+Tropical_Fish:
+  FoodLevel: 1
+  Saturation: 0.2
