@@ -55,8 +55,8 @@ public class ConsumeFood extends JavaPlugin {
         if (cmd.getName().equalsIgnoreCase("consumefoodreload")) {
             if (args.length == 0) {
                 plugin.reloadConfig();
-                sender.sendMessage(ChatColor.GREEN + "Reloaded Consume Food Plugin Config");
-                getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Reloaded Consume Food Plugin Config");
+                sender.sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
+                getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
             }
             if (args.length >= 1) {
                 sender.sendMessage(ChatColor.RED + "/consumefoodreload");
