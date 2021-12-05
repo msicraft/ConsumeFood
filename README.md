@@ -27,5 +27,4 @@ description: Allow [Consume Food] Plugin Config reload Command
 
 
 
-Plugin Download Link
-https://www.spigotmc.org/resources/consume-food.98139/
+Plugin Download Link: https://www.spigotmc.org/resources/consume-food.98139/
