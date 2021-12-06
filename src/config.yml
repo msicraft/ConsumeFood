@@ -19,11 +19,22 @@
 # Set FoodLevel and Saturation values
 # default value = minecraft value
 #
-# Max FoodLevel = 20
-# Max Saturation = 20
+# If you set Enabled to true in MaxSetting you can change the player's maximum FoodLevel and Saturation
+# MaxSetting default value
+# MaxSetting:
+#   Enable = true
+#   FoodLevel = 20
+#   Saturation = 20.0
 #
+# If you set Enabled to false in MaxSetting, the maximum value of FoodLevel and Saturation is 20.
 # If the value exceeds 20, the maximum value is applied.
 # FoodLevel is applied as an integer value (ex. A value of 4.5 is applied as 4)
+
+
+MaxSetting:
+  Enabled: true
+  FoodLevel: 20
+  Saturation: 20.0
 
 Food:
   APPLE:

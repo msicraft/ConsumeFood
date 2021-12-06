@@ -18,31 +18,51 @@ public class ConsumeFoodEvents implements Listener {
         String foodnlist = String.valueOf(ConsumeFood.foodnamelist());
         Player player = e.getPlayer();
         String itemstack = e.getItem().getType().name().toUpperCase();
+        boolean enablecheck = plugin.getConfig().getBoolean("MaxSetting.Enabled");
+        int maxfoodlevel = plugin.getConfig().getInt("MaxSetting.FoodLevel");
+        float maxsaturation = (float) plugin.getConfig().getDouble("MaxSetting.Saturation");
         if (foodnlist.contains(itemstack)) {
             if (foodnlist.contains(player.getInventory().getItemInOffHand().getType().name().toUpperCase())) {
                 e.setCancelled(true);
                 player.setFoodLevel(player.getFoodLevel() + plugin.getConfig().getInt("Food." + itemstack + ".FoodLevel"));
                 player.setSaturation((float) (player.getSaturation() + plugin.getConfig().getDouble("Food." + itemstack + ".Saturation")));
                 e.getPlayer().getInventory().getItemInOffHand().setAmount(e.getPlayer().getInventory().getItemInOffHand().getAmount() - 1);
-                if (player.getFoodLevel() >= 21) {
-                    player.setFoodLevel(20);
+                if (enablecheck) {
+                    if (player.getFoodLevel() >= maxfoodlevel) {
+                        player.setFoodLevel(maxfoodlevel);
+                    }
+                    if (player.getSaturation() >= maxsaturation) {
+                        player.setSaturation(maxsaturation);
+                    }
+                } else {
+                    if (player.getFoodLevel() >= 20) {
+                        player.setFoodLevel(20);
+                    }
+                    if (player.getSaturation() >= 20) {
+                        player.setSaturation(20);
+                    }
                 }
-                if (player.getSaturation() >= 21) {
-                    player.setSaturation(20);
-                }
-            } else {
+            }  else {
                 e.setCancelled(true);
                 player.setFoodLevel(player.getFoodLevel() + plugin.getConfig().getInt("Food." + itemstack + ".FoodLevel"));
                 player.setSaturation((float) (player.getSaturation() + plugin.getConfig().getDouble("Food." + itemstack + ".Saturation")));
                 e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInMainHand().getAmount() - 1);
-                if (player.getFoodLevel() >= 21) {
-                    player.setFoodLevel(20);
-                }
-                if (player.getSaturation() >= 21) {
-                    player.setSaturation(20);
+                if (enablecheck) {
+                    if (player.getFoodLevel() >= maxfoodlevel) {
+                        player.setFoodLevel(maxfoodlevel);
+                    }
+                    if (player.getSaturation() >= maxsaturation) {
+                        player.setSaturation(maxsaturation);
+                    }
+                } else {
+                    if (player.getFoodLevel() >= 20) {
+                        player.setFoodLevel(20);
+                    }
+                    if (player.getSaturation() >= 20) {
+                        player.setSaturation(20);
+                    }
                 }
             }
-
         }
         return true;
     }
