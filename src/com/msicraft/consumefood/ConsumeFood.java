@@ -12,15 +12,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Set;
+
 
 public class ConsumeFood extends JavaPlugin {
 
     public static ConsumeFood plugin;
 
+    public static Set<String> foodnamelist() {
+        Set<String> foodname = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("Food")).getKeys(false);
+        for (String foodlist : foodname) {
+            if (foodlist != null) {
+            }
+        }
+        return foodname;
+    }
+
     @Override
     public void onEnable() {
         createFiles();
         plugin = this;
+        foodnamelist();
         getCommand("hunger").setExecutor(new HungerCommand());
         getCommand("saturation").setExecutor(new HungerCommand());
         getServer().getPluginManager().registerEvents(new ConsumeFoodEvents(), this);
@@ -56,13 +69,15 @@ public class ConsumeFood extends JavaPlugin {
             if (args.length == 0) {
                 plugin.reloadConfig();
                 sender.sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
+                foodnamelist();
                 getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
             }
             if (args.length >= 1) {
                 sender.sendMessage(ChatColor.RED + "/consumefoodreload");
             }
-            }
+        }
         return true;
     }
+
 }
 

@@ -25,126 +25,127 @@
 # If the value exceeds 20, the maximum value is applied.
 # FoodLevel is applied as an integer value (ex. A value of 4.5 is applied as 4)
 
-Apple:
-  FoodLevel: 4
-  Saturation: 2.4
+Food:
+  APPLE:
+    FoodLevel: 4
+    Saturation: 2.4
 
-Beef:
-  FoodLevel: 3
-  Saturation: 1.8
+  BEEF:
+    FoodLevel: 3
+    Saturation: 1.8
 
-Beetroot:
-  FoodLevel: 1
-  Saturation: 1.2
+  BEETROOT:
+    FoodLevel: 1
+    Saturation: 1.2
 
-Baked_potato:
-  FoodLevel: 5
-  Saturation: 6
+  BAKED_POTATO:
+    FoodLevel: 5
+    Saturation: 6
 
-Bread:
-  FoodLevel: 5
-  Saturation: 6
+  BREAD:
+    FoodLevel: 5
+    Saturation: 6
 
-Beetroot_Soup:
-  FoodLevel: 6
-  Saturation: 7.2
+  BEETROOT_SOUP:
+    FoodLevel: 6
+    Saturation: 7.2
 
-Chicken:
-  FoodLevel: 2
-  Saturation: 1.2
+  CHICKEN:
+    FoodLevel: 2
+    Saturation: 1.2
 
-Cod:
-  FoodLevel: 2
-  Saturation: 0.4
+  COD:
+    FoodLevel: 2
+    Saturation: 0.4
 
-Carrot:
-  FoodLevel: 3
-  Saturation: 3.6
+  CARROT:
+    FoodLevel: 3
+    Saturation: 3.6
 
-Cooked_Chicken:
-  FoodLevel: 6
-  Saturation: 7.2
+  COOKED_CHICKEN:
+    FoodLevel: 6
+    Saturation: 7.2
 
-Cooked_Rabbit:
-  FoodLevel: 5
-  Saturation: 6
+  COOKEN_RABBIT:
+    FoodLevel: 5
+    Saturation: 6
 
-Cooked_Porkchop:
-  FoodLevel: 8
-  Saturation: 12.8
+  COOKEN_PORKCHOP:
+    FoodLevel: 8
+    Saturation: 12.8
 
-Cooked_Beef:
-  FoodLevel: 8
-  Saturation: 12.8
+  COOKED_BEEF:
+    FoodLevel: 8
+    Saturation: 12.8
 
-Cooked_Mutton:
-  FoodLevel: 6
-  Saturation: 9.6
+  COOKED_MUTTON:
+    FoodLevel: 6
+    Saturation: 9.6
 
-Cooked_Cod:
-  FoodLevel: 5
-  Saturation: 6
+  COOKED_COD:
+    FoodLevel: 5
+    Saturation: 6
 
-Cooked_Salmon:
-  FoodLevel: 6
-  Saturation: 9.6
+  COOKED_SALMON:
+    FoodLevel: 6
+    Saturation: 9.6
 
-Cookie:
-  FoodLevel: 2
-  Saturation: 0.5
+  COOKIE:
+    FoodLevel: 2
+    Saturation: 0.5
 
-Dried_Kelp:
-  FoodLevel: 1
-  Saturation: 0.6
+  DRIED_KELP:
+    FoodLevel: 1
+    Saturation: 0.6
 
-Glow_Berries:
-  FoodLevel: 2
-  Saturation: 0.4
+  GLOW_BERRIES:
+    FoodLevel: 2
+    Saturation: 0.4
 
-Honey_Bottle:
-  FoodLevel: 6
-  Saturation: 1.2
+  HONEY_BOTTLE:
+    FoodLevel: 6
+    Saturation: 1.2
 
-Mutton:
-  FoodLevel: 2
-  Saturation: 1.2
+  MUTTON:
+    FoodLevel: 2
+    Saturation: 1.2
 
-Melon_Slice:
-  FoodLevel: 2
-  Saturation: 1.2
+  MELON_SLICE:
+    FoodLevel: 2
+    Saturation: 1.2
 
-Mushroom_Stew:
-  FoodLevel: 6
-  Saturation: 7.2
+  MUSHROOM_STEW:
+    FoodLevel: 6
+    Saturation: 7.2
 
-Potato:
-  FoodLevel: 1
-  Saturation: 0.6
+  POTATO:
+    FoodLevel: 1
+    Saturation: 0.6
 
-PorkChop:
-  FoodLevel: 3
-  Saturation: 0.6
+  PORKCHOP:
+    FoodLevel: 3
+    Saturation: 0.6
 
-Pumpkin_pie:
-  FoodLevel: 8
-  Saturation: 4.8
+  PUMPKIN_PIE:
+    FoodLevel: 8
+    Saturation: 4.8
 
-Rabbit:
-  FoodLevel: 2
-  Saturation: 1.2
+  RABBIT:
+    FoodLevel: 2
+    Saturation: 1.2
 
-Rabbit_Stew:
-  FoodLevel: 10
-  Saturation: 12
+  RABBIT_STEW:
+    FoodLevel: 10
+    Saturation: 12
 
-Salmon:
-  FoodLevel: 2
-  Saturation: 0.2
+  SALMON:
+    FoodLevel: 2
+    Saturation: 0.2
 
-Sweet_Berries:
-  FoodLevel: 1
-  Saturation: 0
+  SWEET_BERRIES:
+    FoodLevel: 1
+    Saturation: 0
 
-Tropical_Fish:
-  FoodLevel: 1
-  Saturation: 0.2
+  TROPICAL_FISH:
+    FoodLevel: 1
+    Saturation: 0.2
