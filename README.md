@@ -17,10 +17,10 @@ Minecraft Consume Food Plugin
 # Permission 
 All permissions default to op
 
-- consumefood.sethunger
+- consumefood.sethunger  
 description: Allow [Consume Food] Plugin Hunger Command
   
-- consumefood.setsaturation
+- consumefood.setsaturation  
 description: Allow [Consume Food] Plugin Saturation Command
   
 - consumefood.reload  
