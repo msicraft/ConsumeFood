@@ -12,6 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -29,13 +31,44 @@ public class ConsumeFood extends JavaPlugin {
         return foodname;
     }
 
+
+    public static Set<String> buff_food_list() {
+        Set<String> buffdebufffoodname = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("Buff-Debuff_Food")).getKeys(false);
+        for (String buffdebufffoodlist : buffdebufffoodname) {
+            if (buffdebufffoodlist != null) {
+            }
+        }
+        return  buffdebufffoodname;
+    }
+
+
+
+    protected FileConfiguration config;
+
+    private File potiontypeconfigfile;
+    private FileConfiguration potiontypeconfig;
+
+
     @Override
     public void onEnable() {
         createFiles();
+        createpotiontypefile();
         plugin = this;
+        final int configVersion = plugin.getConfig().contains("config-version", true) ? plugin.getConfig().getInt("config-version") : 1;
+        if (configVersion != 1) {
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "[Consume Food] You are using the old config");
+            getServer().getConsoleSender().sendMessage(ChatColor.RED + "[Consume Food] Created the latest config.yml after replacing the old config.yml with config_old.yml");
+            replaceconfig();
+            createFiles();
+        } else {
+            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[Consume Food] You are using the latest version of config.yml");
+        }
         foodnamelist();
+        buff_food_list();
         getCommand("hunger").setExecutor(new HungerCommand());
         getCommand("saturation").setExecutor(new HungerCommand());
+        getCommand("gethunger").setExecutor(new HungerCommand());
+        getCommand("getsaturation").setExecutor(new HungerCommand());
         getServer().getPluginManager().registerEvents(new ConsumeFoodEvents(), this);
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[Consume Food] Plugin Enable");
     }
@@ -61,6 +94,36 @@ public class ConsumeFood extends JavaPlugin {
         }
     }
 
+
+    public void createpotiontypefile() {
+        potiontypeconfigfile = new File(getDataFolder(), "potiontype.yml");
+        if (!potiontypeconfigfile.exists()){
+            potiontypeconfigfile.getParentFile().mkdirs();
+            saveResource("potiontype.yml",false);
+        }
+        potiontypeconfig = new YamlConfiguration();
+        try {
+            potiontypeconfig.load(potiontypeconfigfile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public FileConfiguration getpotiondata() {
+        return this.potiontypeconfig;
+    }
+
+    public void replaceconfig() {
+        File file = new File(getDataFolder(), "config.yml");
+        this.config = YamlConfiguration.loadConfiguration(file);
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        File config_old = new File(getDataFolder(),"config_old-" + dateFormat.format(date) + ".yml");
+        file.renameTo(config_old);
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[Consume Food] Plugin replaced the old config.yml with config_old.yml and created a new config.yml");
+    }
+
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!sender.hasPermission("consumefood.reload")) {
             sender.sendMessage(ChatColor.RED + "You do not have permission!");
@@ -68,8 +131,9 @@ public class ConsumeFood extends JavaPlugin {
         if (cmd.getName().equalsIgnoreCase("consumefoodreload")) {
             if (args.length == 0) {
                 plugin.reloadConfig();
-                sender.sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
                 foodnamelist();
+                buff_food_list();
+                sender.sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
                 getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
             }
             if (args.length >= 1) {

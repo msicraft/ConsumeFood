@@ -66,6 +66,44 @@ public class HungerCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "/saturation <player> <amount>");
             }
         }
+
+        if (command.getName().equalsIgnoreCase("gethunger")) {
+            if (args.length == 0) {
+                player.sendMessage(ChatColor.RED + "/gethunger <player>");
+            }
+            if (args.length == 1) {
+                Player gettargetfoodlevel = Bukkit.getPlayerExact(args[0]);
+                if (gettargetfoodlevel != null) {
+                    int targetfoodlevel = gettargetfoodlevel.getFoodLevel();
+                    player.sendMessage(ChatColor.GREEN + "Target Player Food Level is " + targetfoodlevel);
+                }  else {
+                    player.sendMessage(ChatColor.RED + "Target Player is not Online");
+                }
+            }
+            if (args.length >= 2) {
+                player.sendMessage(ChatColor.RED + "/gethunger <player>");
+            }
+
+        }
+
+        if (command.getName().equalsIgnoreCase("getsaturation")) {
+            if (args.length == 0) {
+                player.sendMessage(ChatColor.RED + "/getsaturation <player>");
+            }
+            if (args.length == 1) {
+                Player gettargetsaturaion = Bukkit.getPlayerExact(args[0]);
+                if (gettargetsaturaion != null) {
+                    float targetsaturation = gettargetsaturaion.getSaturation();
+                    player.sendMessage(ChatColor.GREEN + "Target Player Saturation is " + targetsaturation);
+                }  else {
+                    player.sendMessage(ChatColor.RED + "Target Player is not Online");
+                }
+            }
+            if (args.length >= 2) {
+                player.sendMessage(ChatColor.RED + "/getsaturation <player>");
+            }
+        }
+
         return true;
     }
 }
