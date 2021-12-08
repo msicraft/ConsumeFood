@@ -7,12 +7,13 @@ Minecraft Consume Food Plugin
 
 - You can change the values of FoodLevel and Saturation
 - Set player foodlevel and saturation with commands
+- You can change the maximum FoodLevel and Saturation
 
 # Command
 
 - /hunger (player) (amount)  description: Set Player FoodLevel
 - /saturation (player) (amount)  description:  Set Player Saturation
-- /consumefoodreload   description:  Reloaded Consume Food Plugin Config
+- /consumefoodreload   description:  [Consume Food] Plugin Config Reload
 
 # Permission 
 All permissions default to op
