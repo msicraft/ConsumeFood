@@ -30,10 +30,10 @@ description: Allow [Consume Food] Plugin /saturation Command
 - consumefood.reload  
 description: Allow [Consume Food] Plugin /consumefoodreload Command
 
-- consumefood.gethunger
+- consumefood.gethunger 
 description: Allow [Consume Food] Plugin /gethunger Command
 
-- consumefood.getsaturation
-description: Allow [Consume Food] Plugin /Saturation Command
+- consumefood.getsaturation 
+description: Allow [Consume Food] Plugin /getsaturation Command
 
 Plugin Download Link: https://www.spigotmc.org/resources/consume-food.98139/
