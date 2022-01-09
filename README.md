@@ -1,7 +1,6 @@
 # ConsumeFood
 Consume Food Plugin
 
-Minecraft Consume Food Plugin 
 
 # Plugin Description
 
