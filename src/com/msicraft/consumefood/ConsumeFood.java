@@ -2,6 +2,7 @@ package com.msicraft.consumefood;
 
 import com.msicraft.consumefood.command.HungerCommand;
 import com.msicraft.consumefood.events.ConsumeFoodEvents;
+import com.msicraft.consumefood.events.Food_Interact_Event;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -54,8 +55,8 @@ public class ConsumeFood extends JavaPlugin {
         createFiles();
         createpotiontypefile();
         plugin = this;
-        final int configVersion = plugin.getConfig().contains("config-version", true) ? plugin.getConfig().getInt("config-version") : 1;
-        if (configVersion != 1) {
+        final int configVersion = plugin.getConfig().contains("config-version", true) ? plugin.getConfig().getInt("config-version") : -1;
+        if (configVersion != 2) {
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "[Consume Food] You are using the old config");
             getServer().getConsoleSender().sendMessage(ChatColor.RED + "[Consume Food] Created the latest config.yml after replacing the old config.yml with config_old.yml");
             replaceconfig();
@@ -70,6 +71,7 @@ public class ConsumeFood extends JavaPlugin {
         getCommand("gethunger").setExecutor(new HungerCommand());
         getCommand("getsaturation").setExecutor(new HungerCommand());
         getServer().getPluginManager().registerEvents(new ConsumeFoodEvents(), this);
+        getServer().getPluginManager().registerEvents(new Food_Interact_Event(), this);
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[Consume Food] Plugin Enable");
     }
 

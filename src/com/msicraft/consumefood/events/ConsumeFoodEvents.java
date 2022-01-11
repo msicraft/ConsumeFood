@@ -10,7 +10,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 
@@ -61,7 +60,9 @@ public class ConsumeFoodEvents implements Listener {
                                 PotionEffectType listpotiontype = PotionEffectType.getByName(effectlist[0]);
                                 int listpotionlvl = Integer.parseInt(effectlist[1]);
                                 int listpotionduration = Integer.parseInt(effectlist[2]);
-                                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(listpotiontype), listpotionduration * 20, listpotionlvl - 1));
+                                if (listpotiontype != null) {
+                                    player.addPotionEffect(new PotionEffect(listpotiontype, listpotionduration * 20, listpotionlvl - 1));
+                                }
                             }
                         }
                     }
@@ -79,7 +80,9 @@ public class ConsumeFoodEvents implements Listener {
                                 PotionEffectType listpotiontype = PotionEffectType.getByName(effectlist[0]);
                                 int listpotionlvl = Integer.parseInt(effectlist[1]);
                                 int listpotionduration = Integer.parseInt(effectlist[2]);
-                                player.addPotionEffect(new PotionEffect(Objects.requireNonNull(listpotiontype), listpotionduration * 20, listpotionlvl - 1));
+                                if (listpotiontype != null) {
+                                    player.addPotionEffect(new PotionEffect(listpotiontype, listpotionduration * 20, listpotionlvl - 1));
+                                }
                             }
                         }
                     }

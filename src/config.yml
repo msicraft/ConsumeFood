@@ -24,13 +24,21 @@
 #
 #  If you want to get rid of PotionEffect, Just delete the PotionEffect field blank.
 #
-config-version: 1  # Don't Touch This
+config-version: 2  # Don't Touch This
 
 
 MaxSetting:
   Enabled: true
   FoodLevel: 20
   Saturation: 20.0
+
+
+# If Max_Consumable is true, it allows you to eat food with a right click when the food level is 20 or higher.
+# But this doesn't play the food eating animation. So you can set cooldown.
+# This setting is likely to cause overlapping consumption of food that can be eaten even in full food level. (When the food level is above 20)
+Max_Consumable:
+  Enabled: false
+  Cooldown: 3
 
 Buff-Debuff_Food:
   ENCHANTED_GOLDEN_APPLE:
@@ -108,10 +116,10 @@ Food:
   COOKED_CHICKEN:
     FoodLevel: 6
     Saturation: 7.2
-  COOKEN_RABBIT:
+  COOKED_RABBIT:
     FoodLevel: 5
     Saturation: 6
-  COOKEN_PORKCHOP:
+  COOKED_PORKCHOP:
     FoodLevel: 8
     Saturation: 12.8
   COOKED_BEEF:

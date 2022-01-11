@@ -21,13 +21,14 @@ public class HungerCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "/hunger <player> <amount>");
             }
             if (args.length == 1) {
-                player.sendMessage(ChatColor.RED + "Please set enter value 1 to 20");
+                player.sendMessage(ChatColor.RED + "Please enter a value");
             }
             if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
+                String S_target = String.valueOf(Bukkit.getPlayerExact(args[0]));
                 int hungervalue = Integer.parseInt(args[1]);
                 if (target == null) {
-                    player.sendMessage(ChatColor.RED + "Target Player is not Online");
+                    player.sendMessage(ChatColor.RED + S_target + " is not Online");
                 } else {
                     target.setFoodLevel(hungervalue);
                 }
@@ -46,13 +47,14 @@ public class HungerCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "/saturation <player> <amount>");
             }
             if (args.length == 1) {
-                player.sendMessage(ChatColor.RED + "Please set enter value 1 to 20");
+                player.sendMessage(ChatColor.RED + "Please enter a value");
             }
             if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
-                int saturationvalue = Integer.parseInt(args[1]);
+                String S_target = String.valueOf(Bukkit.getPlayerExact(args[0]));
+                float saturationvalue = Float.parseFloat((args[1]));
                 if (target == null) {
-                    player.sendMessage(ChatColor.RED + "Target Player is not Online");
+                    player.sendMessage(ChatColor.RED + S_target + " is not Online");
                 }  else {
                     target.setSaturation(saturationvalue);
                 }
@@ -73,11 +75,12 @@ public class HungerCommand implements CommandExecutor {
             }
             if (args.length == 1) {
                 Player gettargetfoodlevel = Bukkit.getPlayerExact(args[0]);
+                String S_target = args[0];
                 if (gettargetfoodlevel != null) {
                     int targetfoodlevel = gettargetfoodlevel.getFoodLevel();
-                    player.sendMessage(ChatColor.GREEN + "Target Player Food Level is " + targetfoodlevel);
+                    player.sendMessage(ChatColor.GREEN + S_target + " Food Level is " + targetfoodlevel);
                 }  else {
-                    player.sendMessage(ChatColor.RED + "Target Player is not Online");
+                    player.sendMessage(ChatColor.RED + S_target +" is not Online");
                 }
             }
             if (args.length >= 2) {
@@ -92,11 +95,12 @@ public class HungerCommand implements CommandExecutor {
             }
             if (args.length == 1) {
                 Player gettargetsaturaion = Bukkit.getPlayerExact(args[0]);
+                String S_target = args[0];
                 if (gettargetsaturaion != null) {
                     float targetsaturation = gettargetsaturaion.getSaturation();
-                    player.sendMessage(ChatColor.GREEN + "Target Player Saturation is " + targetsaturation);
+                    player.sendMessage(ChatColor.GREEN + S_target + " Saturation is " + targetsaturation);
                 }  else {
-                    player.sendMessage(ChatColor.RED + "Target Player is not Online");
+                    player.sendMessage(ChatColor.RED + S_target +" is not Online");
                 }
             }
             if (args.length >= 2) {
