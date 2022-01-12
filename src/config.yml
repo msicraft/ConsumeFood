@@ -30,7 +30,6 @@ MaxSetting:
   FoodLevel: 20
   Saturation: 20.0
 
-
 # If Max_Consumable is true, it allows you to eat food with a right click when the food level is 20 or higher.
 # But this doesn't play the food eating animation. So you can set cooldown.
 Max_Consumable:

@@ -19,6 +19,7 @@ public class ConsumeFoodEvents implements Listener {
 
     Random randomchance = new Random();
 
+
     @EventHandler
     public boolean onPlayerItemConsumeEvent(PlayerItemConsumeEvent e) {
         String foodnlist = String.valueOf(ConsumeFood.foodnamelist());

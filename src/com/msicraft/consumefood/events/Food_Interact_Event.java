@@ -24,6 +24,7 @@ public class Food_Interact_Event implements Listener {
     Map<String, Long> cooldowns = new HashMap<String, Long>();
     Random randomchance = new Random();
 
+
     @EventHandler
     public void Food_Interact(PlayerInteractEvent e) {
         Player player = e.getPlayer();
