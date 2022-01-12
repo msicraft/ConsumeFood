@@ -1,6 +1,7 @@
 package com.msicraft.consumefood.events;
 
 import com.msicraft.consumefood.ConsumeFood;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,14 +35,16 @@ public class Food_Interact_Event implements Listener {
         boolean max_consumable = plugin.getConfig().getBoolean("Max_Consumable.Enabled");
         long cooldown = plugin.getConfig().getLong("Max_Consumable.Cooldown");
         String cooldown_path = ConsumeFood.plugin.getmessageconfig().getString("cooldown");
+        String max_foodlevel_path = ConsumeFood.plugin.getmessageconfig().getString("max_food_level");
+        String max_saturation_path = ConsumeFood.plugin.getmessageconfig().getString("max_saturation");
         if (max_consumable) {
             if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                if (cooldowns.containsKey(player.getName())) {
+                if (cooldowns.containsKey(player.getName()) && p_food_level >= 20) {
                     if (cooldowns.get(player.getName()) > System.currentTimeMillis()) {
                         long timeleft = (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000;
                         if (cooldown_path != null) {
                             cooldown_path = cooldown_path.replaceAll("%time_left%", String.valueOf(timeleft));
-                            player.sendMessage(cooldown_path);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', cooldown_path));
                         }
                         return;
                     }
@@ -104,9 +107,17 @@ public class Food_Interact_Event implements Listener {
                 }
                 if (player.getFoodLevel() >= max_food_level) {
                     player.setFoodLevel(max_food_level);
+                    if (max_foodlevel_path != null) {
+                        max_foodlevel_path = max_foodlevel_path.replaceAll("%max_foodlevel%", String.valueOf(max_food_level));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', max_foodlevel_path));
+                    }
                 }
                 if (player.getSaturation() >= max_saturation) {
                     player.setSaturation(max_saturation);
+                    if (max_saturation_path != null) {
+                        max_saturation_path = max_saturation_path.replaceAll("%max_saturation%", String.valueOf(max_saturation));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', max_saturation_path));
+                    }
                 }
             }
         }
