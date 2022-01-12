@@ -1,16 +1,22 @@
 package com.msicraft.consumefood.command;
 
+import com.msicraft.consumefood.ConsumeFood;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class HungerCommand implements CommandExecutor {
 
+    Plugin plugin = ConsumeFood.getPlugin(ConsumeFood.class);
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        int maxfoodlevel = plugin.getConfig().getInt("MaxSetting.FoodLevel");
+        float maxsaturation = (float) plugin.getConfig().getDouble("MaxSetting.Saturation");
         if (!(sender instanceof Player player)) {
             sender.sendMessage("Only Players can use that command");
             return true;
@@ -21,7 +27,7 @@ public class HungerCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "/hunger <player> <amount>");
             }
             if (args.length == 1) {
-                player.sendMessage(ChatColor.RED + "Please enter a value");
+                player.sendMessage(ChatColor.RED + "Please enter a value (The maximum value currently set is " + maxfoodlevel);
             }
             if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
@@ -32,9 +38,9 @@ public class HungerCommand implements CommandExecutor {
                 } else {
                     target.setFoodLevel(hungervalue);
                 }
-                if (hungervalue >= 21) {
+                if (hungervalue >= maxfoodlevel) {
                     if (target != null) {
-                        target.setFoodLevel(20);
+                        target.setFoodLevel(maxfoodlevel);
                     }
                 }
             }
@@ -47,7 +53,7 @@ public class HungerCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "/saturation <player> <amount>");
             }
             if (args.length == 1) {
-                player.sendMessage(ChatColor.RED + "Please enter a value");
+                player.sendMessage(ChatColor.RED + "Please enter a value (The maximum value currently set is " + maxsaturation);
             }
             if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
@@ -58,9 +64,9 @@ public class HungerCommand implements CommandExecutor {
                 }  else {
                     target.setSaturation(saturationvalue);
                 }
-                if (saturationvalue >= 21) {
+                if (saturationvalue >= maxsaturation) {
                     if (target != null) {
-                        target.setSaturation(20);
+                        target.setSaturation(maxsaturation);
                     }
                 }
             }

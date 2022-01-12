@@ -1,0 +1,4 @@
+# If you don't need a message, please leave a blank.
+# (Available Placeholder: %time_left%)
+#
+cooldown: Time left %time_left%

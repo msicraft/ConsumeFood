@@ -5,10 +5,9 @@
 # Set FoodLevel and Saturation values
 # default value = minecraft value
 #
-# If you set Enabled to true in MaxSetting you can change the player's maximum FoodLevel and Saturation
+# Max Settings can change the maximum food level and duration.
 # MaxSetting default value
 # MaxSetting:
-#   Enable = true
 #   FoodLevel = 20
 #   Saturation = 20.0
 #
@@ -28,14 +27,12 @@ config-version: 2  # Don't Touch This
 
 
 MaxSetting:
-  Enabled: true
   FoodLevel: 20
   Saturation: 20.0
 
 
 # If Max_Consumable is true, it allows you to eat food with a right click when the food level is 20 or higher.
 # But this doesn't play the food eating animation. So you can set cooldown.
-# This setting is likely to cause overlapping consumption of food that can be eaten even in full food level. (When the food level is above 20)
 Max_Consumable:
   Enabled: false
   Cooldown: 3

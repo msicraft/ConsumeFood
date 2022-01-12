@@ -11,10 +11,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Food_Interact_Event implements Listener {
 
@@ -35,14 +32,17 @@ public class Food_Interact_Event implements Listener {
         int max_food_level = plugin.getConfig().getInt("MaxSetting.FoodLevel");
         float max_saturation = (float) plugin.getConfig().getDouble("MaxSetting.Saturation");
         boolean max_consumable = plugin.getConfig().getBoolean("Max_Consumable.Enabled");
-        boolean enablecheck = plugin.getConfig().getBoolean("MaxSetting.Enabled");
         long cooldown = plugin.getConfig().getLong("Max_Consumable.Cooldown");
+        String cooldown_path = ConsumeFood.plugin.getmessageconfig().getString("cooldown");
         if (max_consumable) {
             if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
                 if (cooldowns.containsKey(player.getName())) {
                     if (cooldowns.get(player.getName()) > System.currentTimeMillis()) {
                         long timeleft = (cooldowns.get(player.getName()) - System.currentTimeMillis()) / 1000;
-                        player.sendMessage("1.0: " + timeleft);
+                        if (cooldown_path != null) {
+                            cooldown_path = cooldown_path.replaceAll("%time_left%", String.valueOf(timeleft));
+                            player.sendMessage(cooldown_path);
+                        }
                         return;
                     }
                 }
@@ -83,7 +83,7 @@ public class Food_Interact_Event implements Listener {
                         } else {
                             player.setFoodLevel(player.getFoodLevel() + plugin.getConfig().getInt("Buff-Debuff_Food." + itemstack + ".FoodLevel"));
                             player.setSaturation((float) (player.getSaturation() + plugin.getConfig().getDouble("Buff-Debuff_Food." + itemstack + ".Saturation")));
-                            e.getPlayer().getInventory().getItemInMainHand().setAmount(e.getPlayer().getInventory().getItemInOffHand().getAmount() - 1);
+                            e.getPlayer().getInventory().getItemInOffHand().setAmount(e.getPlayer().getInventory().getItemInOffHand().getAmount() - 1);
                             player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
                             if (buffdebuffpotioneffect != null) {
                                 if (randomchance.nextDouble() <= potioneffectchange) {
@@ -102,20 +102,11 @@ public class Food_Interact_Event implements Listener {
                         }
                     }
                 }
-                if (enablecheck) {
-                    if (player.getFoodLevel() >= max_food_level) {
-                        player.setFoodLevel(max_food_level);
-                    }
-                    if (player.getSaturation() >= max_saturation) {
-                        player.setSaturation(max_saturation);
-                    }
-                } else {
-                    if (player.getFoodLevel() >= 20) {
-                        player.setFoodLevel(20);
-                    }
-                    if (player.getSaturation() >= 20) {
-                        player.setSaturation(20);
-                    }
+                if (player.getFoodLevel() >= max_food_level) {
+                    player.setFoodLevel(max_food_level);
+                }
+                if (player.getSaturation() >= max_saturation) {
+                    player.setSaturation(max_saturation);
                 }
             }
         }

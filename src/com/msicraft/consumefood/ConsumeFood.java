@@ -14,9 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 public class ConsumeFood extends JavaPlugin {
@@ -26,7 +24,8 @@ public class ConsumeFood extends JavaPlugin {
     public static Set<String> foodnamelist() {
         Set<String> foodname = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("Food")).getKeys(false);
         for (String foodlist : foodname) {
-            if (foodlist != null) {
+            if (foodlist == null) {
+                System.out.print("");
             }
         }
         return foodname;
@@ -36,12 +35,12 @@ public class ConsumeFood extends JavaPlugin {
     public static Set<String> buff_food_list() {
         Set<String> buffdebufffoodname = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("Buff-Debuff_Food")).getKeys(false);
         for (String buffdebufffoodlist : buffdebufffoodname) {
-            if (buffdebufffoodlist != null) {
+            if (buffdebufffoodlist == null) {
+                System.out.print("");
             }
         }
         return  buffdebufffoodname;
     }
-
 
 
     protected FileConfiguration config;
@@ -49,11 +48,15 @@ public class ConsumeFood extends JavaPlugin {
     private File potiontypeconfigfile;
     private FileConfiguration potiontypeconfig;
 
+    private File messageconfigfile;
+    private FileConfiguration messageconfig;
+
 
     @Override
     public void onEnable() {
         createFiles();
         createpotiontypefile();
+        create_message_file();
         plugin = this;
         final int configVersion = plugin.getConfig().contains("config-version", true) ? plugin.getConfig().getInt("config-version") : -1;
         if (configVersion != 2) {
@@ -115,6 +118,24 @@ public class ConsumeFood extends JavaPlugin {
         return this.potiontypeconfig;
     }
 
+    public void create_message_file() {
+        messageconfigfile = new File(getDataFolder(), "message.yml");
+        if (!messageconfigfile.exists()){
+            messageconfigfile.getParentFile().mkdirs();
+            saveResource("message.yml", false);
+        }
+        messageconfig = new YamlConfiguration();
+        try {
+            messageconfig.load(messageconfigfile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public FileConfiguration getmessageconfig() {
+        return this.messageconfig;
+    }
+
     public void replaceconfig() {
         File file = new File(getDataFolder(), "config.yml");
         this.config = YamlConfiguration.loadConfiguration(file);
@@ -135,6 +156,7 @@ public class ConsumeFood extends JavaPlugin {
                 plugin.reloadConfig();
                 foodnamelist();
                 buff_food_list();
+                messageconfig = YamlConfiguration.loadConfiguration(messageconfigfile);
                 sender.sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
                 getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Reloaded [Consume Food] Plugin Config");
             }

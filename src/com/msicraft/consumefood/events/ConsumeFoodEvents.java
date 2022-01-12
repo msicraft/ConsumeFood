@@ -19,20 +19,16 @@ public class ConsumeFoodEvents implements Listener {
 
     Random randomchance = new Random();
 
-
     @EventHandler
     public boolean onPlayerItemConsumeEvent(PlayerItemConsumeEvent e) {
         String foodnlist = String.valueOf(ConsumeFood.foodnamelist());
         Player player = e.getPlayer();
         String itemstack = e.getItem().getType().name().toUpperCase();
-        boolean enablecheck = plugin.getConfig().getBoolean("MaxSetting.Enabled");
         int maxfoodlevel = plugin.getConfig().getInt("MaxSetting.FoodLevel");
         float maxsaturation = (float) plugin.getConfig().getDouble("MaxSetting.Saturation");
-        //
         String buffdebufffoodlist = String.valueOf(ConsumeFood.buff_food_list());
         String buffdebuffpotioneffect = String.valueOf(plugin.getConfig().getStringList("Buff-Debuff_Food." + itemstack + ".PotionEffect"));
         double potioneffectchange = plugin.getConfig().getDouble("Buff-Debuff_Food." + itemstack + ".Chance");
-        //
         if (foodnlist.contains(itemstack)) {
             if (foodnlist.contains(player.getInventory().getItemInOffHand().getType().name().toUpperCase())) {
                 e.setCancelled(true);
@@ -89,22 +85,12 @@ public class ConsumeFoodEvents implements Listener {
                 }
             }
         }
-        if (enablecheck) {
-            if (player.getFoodLevel() >= maxfoodlevel) {
-                player.setFoodLevel(maxfoodlevel);
-            }
-            if (player.getSaturation() >= maxsaturation) {
-                player.setSaturation(maxsaturation);
-            }
-        } else {
-            if (player.getFoodLevel() >= 20) {
-                player.setFoodLevel(20);
-            }
-            if (player.getSaturation() >= 20) {
-                player.setSaturation(20);
-            }
+        if (player.getFoodLevel() >= maxfoodlevel) {
+            player.setFoodLevel(maxfoodlevel);
         }
-
+        if (player.getSaturation() >= maxsaturation) {
+            player.setSaturation(maxsaturation);
+        }
         return true;
     }
 }
