@@ -1,6 +1,6 @@
 # ConsumeFood
 Consume Food Plugin
-
+Version 1.5 or higher can be found here: https://github.com/msicraft/ConsumeFood-paper-based
 
 # Plugin Description
 
