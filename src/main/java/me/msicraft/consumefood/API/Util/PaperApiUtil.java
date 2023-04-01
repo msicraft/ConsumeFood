@@ -41,6 +41,7 @@ public class PaperApiUtil {
             skullMeta.setLore(list);
             PlayerProfile playerProfile = Bukkit.createProfile(uuid, name);
             playerProfile.setProperty(new ProfileProperty("textures", textureValue));
+            skullMeta.setPlayerProfile(playerProfile);
             itemStack.setItemMeta(skullMeta);
         }
         return itemStack;

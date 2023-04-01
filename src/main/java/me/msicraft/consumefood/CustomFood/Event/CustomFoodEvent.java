@@ -1,7 +1,7 @@
 package me.msicraft.consumefood.CustomFood.Event;
 
 import me.msicraft.consumefood.API.CustomEvent.CustomFoodConsumeEvent;
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;

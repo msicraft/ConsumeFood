@@ -1,6 +1,6 @@
 package me.msicraft.consumefood.CustomFood.Event;
 
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.CustomFood.Inventory.CustomFoodEditInv;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;

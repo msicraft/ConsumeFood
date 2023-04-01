@@ -1,6 +1,6 @@
 package me.msicraft.consumefood.Command;
 
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

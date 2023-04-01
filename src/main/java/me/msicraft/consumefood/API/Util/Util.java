@@ -1,6 +1,7 @@
 package me.msicraft.consumefood.API.Util;
 
 import me.msicraft.consumefood.ConsumeFood;
+import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;

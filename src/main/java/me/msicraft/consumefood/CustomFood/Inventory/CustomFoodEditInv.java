@@ -1,6 +1,6 @@
 package me.msicraft.consumefood.CustomFood.Inventory;
 
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.PaperApiUtil;
 import me.msicraft.consumefood.API.Util.SpigotUtil;
 import me.msicraft.consumefood.ConsumeFood;

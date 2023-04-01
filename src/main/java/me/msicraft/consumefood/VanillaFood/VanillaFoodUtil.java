@@ -1,4 +1,4 @@
-package me.msicraft.consumefood.API.Util;
+package me.msicraft.consumefood.VanillaFood;
 
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
@@ -158,6 +158,17 @@ public class VanillaFoodUtil {
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         } else if (slot == EquipmentSlot.OFF_HAND) {
             player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
+        }
+    }
+
+    public void notRemoveAmountApplyConsumeFood(Player player, int foodLevel, float saturation, VanillaFoodEnum vanillaFoodEnum) {
+        player.setFoodLevel(foodLevel);
+        player.setSaturation(saturation);
+        if (hasPotionEffect(vanillaFoodEnum)) {
+            applyPotionEffect(player, vanillaFoodEnum);
+        }
+        if (hasCommand(vanillaFoodEnum)) {
+            applyExecuteCommand(player, vanillaFoodEnum);
         }
     }
 

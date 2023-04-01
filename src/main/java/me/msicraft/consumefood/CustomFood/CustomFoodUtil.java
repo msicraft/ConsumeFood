@@ -1,5 +1,7 @@
-package me.msicraft.consumefood.API.Util;
+package me.msicraft.consumefood.CustomFood;
 
+import me.msicraft.consumefood.API.Util.PaperApiUtil;
+import me.msicraft.consumefood.API.Util.SpigotUtil;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;

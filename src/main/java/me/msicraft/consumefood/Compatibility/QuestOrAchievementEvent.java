@@ -1,9 +1,9 @@
 package me.msicraft.consumefood.Compatibility;
 
 import me.msicraft.consumefood.API.CustomEvent.VanillaFoodConsumeEvent;
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.Util;
-import me.msicraft.consumefood.API.Util.VanillaFoodUtil;
+import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.VanillaFoodEnum;
@@ -33,7 +33,6 @@ public class QuestOrAchievementEvent implements Listener {
     private final Util util = new Util();
     private final CustomFoodUtil customFoodUtil = new CustomFoodUtil();
     private final PlayerHungerUtil playerHungerUtil = new PlayerHungerUtil();
-
 
     private final HashMap<UUID, Boolean> isChange = new HashMap<>();
 
@@ -67,7 +66,6 @@ public class QuestOrAchievementEvent implements Listener {
             switch (cdType) {
                 case "disable":
                     isChange.put(player.getUniqueId(), true);
-                    Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
                 case "global":
                     long globalCooldown = ConsumeFood.getPlugin().getConfig().getLong("Cooldown-Setting.Global_Cooldown");
@@ -82,6 +80,7 @@ public class QuestOrAchievementEvent implements Listener {
                                 }
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', cooldownMessage));
                             }
+                            isChange.put(player.getUniqueId(), false);
                             e.setCancelled(true);
                             Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, false));
                             return;
@@ -89,7 +88,6 @@ public class QuestOrAchievementEvent implements Listener {
                     }
                     vanillaFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
                     isChange.put(player.getUniqueId(), true);
-                    Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
                 case "personal":
                     double personalCooldown = vanillaFoodUtil.getPersonalCooldown(vanillaFoodEnum);
@@ -108,6 +106,8 @@ public class QuestOrAchievementEvent implements Listener {
                                 }
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', cooldownMessage));
                             }
+                            isChange.put(player.getUniqueId(), false);
+                            e.setCancelled(true);
                             Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, false));
                             return;
                         }
@@ -116,7 +116,6 @@ public class QuestOrAchievementEvent implements Listener {
                     temp.put(key, cd);
                     vanillaFood_personalCooldownMap.put(player.getUniqueId(), temp);
                     isChange.put(player.getUniqueId(), true);
-                    Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
             }
             String finalCdType = cdType;
@@ -148,7 +147,7 @@ public class QuestOrAchievementEvent implements Listener {
                         break;
                 }
                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, finalCdType, true));
-                vanillaFoodUtil.applyConsumeFood(player, finalCalFoodLevel, finalCalSaturation, vanillaFoodEnum, slot);
+                vanillaFoodUtil.notRemoveAmountApplyConsumeFood(player, finalCalFoodLevel, finalCalSaturation, vanillaFoodEnum);
                 if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                     String reachMessage = util.getReachMaxFoodLevel();
                     if (!reachMessage.equals("")) {

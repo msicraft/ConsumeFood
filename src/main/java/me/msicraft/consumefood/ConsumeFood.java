@@ -1,8 +1,8 @@
 package me.msicraft.consumefood;
 
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.Util;
-import me.msicraft.consumefood.API.Util.VanillaFoodUtil;
+import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import me.msicraft.consumefood.Command.MainCommand;
 import me.msicraft.consumefood.Command.MainTabComplete;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.ConsumeFoodPlaceholder;

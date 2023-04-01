@@ -1,6 +1,6 @@
 package me.msicraft.consumefood.Command;
 
-import me.msicraft.consumefood.API.Util.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.CustomFood.Inventory.CustomFoodEditInv;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
@@ -32,7 +32,7 @@ public class MainCommand implements CommandExecutor {
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood help : " + ChatColor.WHITE + "Show the list of commands of the [ConsumeFood] plugin");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood reload : " + ChatColor.WHITE + "Reload the plugin config files");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood edit : " + ChatColor.WHITE + "Open Custom Food Edit Gui");
-                                sender.sendMessage(ChatColor.YELLOW + "/consumefood <player> <internalname> <amount> : " + ChatColor.WHITE + "Give custom food to <player>");
+                                sender.sendMessage(ChatColor.YELLOW + "/consumefood get <player> <internalname> <amount> : " + ChatColor.WHITE + "Give custom food to <player>");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood hunger set <player> <amount> : " + ChatColor.WHITE + "Set player food level");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood hunger get <player> : " + ChatColor.WHITE + "Get player food level");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood saturation set <player> <amount> : " + ChatColor.WHITE + "Set player saturation");
