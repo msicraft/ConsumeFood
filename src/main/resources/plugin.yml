@@ -1,0 +1,16 @@
+name: ConsumeFood
+version: 2.0 #'${project.version}'
+main: me.msicraft.consumefood.ConsumeFood
+api-version: 1.16
+authors: [ msicraft ]
+softdepend: [NBTAPI, PlaceholderAPI]
+description: ConsumeFood Plugin
+commands:
+  consumefood:
+    description: Main Command
+    aliases: [consume, cf]
+    permission-message: You don't have permission
+permissions:
+  consumefood.maincommand:
+    description: Allow Main Command
+    default: op

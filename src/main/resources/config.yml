@@ -1,0 +1,286 @@
+config-version: 5 # Don't Touch This
+
+# Plugin compatibility (Server restart required for change)
+Compatibility:
+  PlaceholderAPI: true
+  Quest-or-Achievement: false
+
+# Changing this doesn't change the hunger bar.
+# If 'Enabled-CustomFoodLevel' is true, can change the player's max foodlevel.
+# Available placeholder = [ %consumefood_foodlevel%, %consumefood_max_foodlevel% ]
+#
+# If 'Sync-CustomFoodLevel' is true, the player's foodlevel and custom foodlevel will be synchronized. ('Sync-CustomFoodLevel' recommends true)
+# For example, if the custom foodlevel is 10/40(value/max), the player's foodlevel will be 5 | 15/40 = 8
+#
+# 'Sprint-FoodLevel' is the minimum foodlevel at which the player can run.
+# 'Sprint-FoodLevel' is applied only when 'Sync-CustomFoodLevel' is true.
+CustomSetting:
+  Enabled-CustomFoodLevel: true
+  Sync-CustomFoodLevel: true
+  Max-FoodLevel: 20
+  Max-Saturation: 10
+  Sprint-FoodLevel: 6
+
+# If 'Max-Consumable' is true, the player can eat food even if the player's hunger bar is full..
+# But this doesn't play the food eating animation.
+Max-Consumable:
+  Enabled: false
+
+# Available Type values: [global, personal, disable]
+# If Type is global, all food cooldown is applied as global_cooldown value
+# If Type is personal, the cooldown is applied for each food
+# If Type is disable, cooldown is disabled
+Cooldown-Setting:
+  Type: 'disable'
+  Global_Cooldown: 3
+
+#When the type is 'personal' in 'Cooldown-Setting', the cooldown value of this section is applied
+#
+# PotionEffect = <potionType>:<level>:<duration>:<chance>
+# https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html
+#
+# Command = <executeType>:<command> | Available executeType = [console, player]
+# Can use placeholders if 'PlaceholderAPI' compatibility is true
+#
+Food:
+  APPLE:
+    FoodLevel: 4
+    Saturation: 2.4
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  BAKED_POTATO:
+    FoodLevel: 5
+    Saturation: 6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  BEEF:
+    FoodLevel: 3
+    Saturation: 1.8
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  BEETROOT:
+    FoodLevel: 1
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  BEETROOT_SOUP:
+    FoodLevel: 6
+    Saturation: 7.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  BREAD:
+    FoodLevel: 5
+    Saturation: 6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  CARROT:
+    FoodLevel: 3
+    Saturation: 3.6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  CHICKEN:
+    FoodLevel: 2
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COD:
+    FoodLevel: 2
+    Saturation: 0.4
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_BEEF:
+    FoodLevel: 8
+    Saturation: 12.8
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_CHICKEN:
+    FoodLevel: 6
+    Saturation: 7.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_COD:
+    FoodLevel: 5
+    Saturation: 6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_MUTTON:
+    FoodLevel: 6
+    Saturation: 9.6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_PORKCHOP:
+    FoodLevel: 8
+    Saturation: 12.8
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_RABBIT:
+    FoodLevel: 5
+    Saturation: 6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKED_SALMON:
+    FoodLevel: 6
+    Saturation: 9.6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  COOKIE:
+    FoodLevel: 2
+    Saturation: 0.5
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  DRIED_KELP:
+    FoodLevel: 1
+    Saturation: 0.6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  ENCHANTED_GOLDEN_APPLE:
+    FoodLevel: 4
+    Saturation: 9.6
+    Cooldown: 0
+    PotionEffect:
+      - ABSORPTION:4:120:1
+      - REGENERATION:2:20:1
+      - FIRE_RESISTANCE:1:300:1
+      - RESISTANCE:1:300:1
+    Command:
+  GLOW_BERRIES: # Only available 1.17+
+    FoodLevel: 2
+    Saturation: 0.4
+    Cooldown: 0
+    PotionEffect:
+    Commands:
+  GOLDEN_APPLE:
+    FoodLevel: 4
+    Saturation: 9.6
+    Cooldown: 0
+    PotionEffect:
+      - ABSORPTION:1:120:1
+      - REGENERATION:2:5:1
+    Command:
+  GOLDEN_CARROT:
+    FoodLevel: 6
+    Saturation: 14.4
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  HONEY_BOTTLE:
+    FoodLevel: 6
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  MELON_SLICE:
+    FoodLevel: 2
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  MUSHROOM_STEW:
+    FoodLevel: 6
+    Saturation: 7.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  MUTTON:
+    FoodLevel: 2
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  POISONOUS_POTATO:
+    FoodLevel: 2
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+      - POISON:2:5:1
+    Command:
+  PORKCHOP:
+    FoodLevel: 3
+    Saturation: 0.6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  POTATO:
+    FoodLevel: 1
+    Saturation: 0.6
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  PUFFERFISH:
+    FoodLevel: 1
+    Saturation: 0.2
+    Cooldown: 0
+    PotionEffect:
+      - HUNGER:3:15:1
+      - POISON:2:60:1
+      - NAUSEA:1:15:1
+    Command:
+  PUMPKIN_PIE:
+    FoodLevel: 8
+    Saturation: 4.8
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  RABBIT:
+    FoodLevel: 2
+    Saturation: 1.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  RABBIT_STEW:
+    FoodLevel: 10
+    Saturation: 12
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  ROTTEN_FLESH:
+    FoodLevel: 4
+    Saturation: 0.8
+    Cooldown: 0
+    PotionEffect:
+      - HUNGER:1:30:0.8
+    Command:
+  SALMON:
+    FoodLevel: 2
+    Saturation: 0.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  SPIDER_EYE:
+    FoodLevel: 2
+    Saturation: 3.2
+    Cooldown: 0
+    PotionEffect:
+      - POISON:1:4:1
+    Command:
+  SWEET_BERRIES:
+    FoodLevel: 1
+    Saturation: 0
+    Cooldown: 0
+    PotionEffect:
+    Command:
+  TROPICAL_FISH:
+    FoodLevel: 1
+    Saturation: 0.2
+    Cooldown: 0
+    PotionEffect:
+    Command:
+
