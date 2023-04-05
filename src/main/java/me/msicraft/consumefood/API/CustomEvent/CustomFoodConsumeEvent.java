@@ -28,6 +28,34 @@ public class CustomFoodConsumeEvent extends Event {
         this.isSuccess = isSuccess;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getFoodLevel() {
+        return foodLevel;
+    }
+
+    public float getSaturation() {
+        return saturation;
+    }
+
+    public EquipmentSlot getUseHand() {
+        return useHand;
+    }
+
+    public String getCooldownType() {
+        return cooldownType;
+    }
+
+    public ItemStack getItemStack() {
+        return itemStack;
+    }
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return handlers;

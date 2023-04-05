@@ -9,8 +9,27 @@ commands:
   consumefood:
     description: Main Command
     aliases: [consume, cf]
-    permission-message: You don't have permission
+    #permission-message: You don't have permission
+    permission: consumefood.command
 permissions:
-  consumefood.maincommand:
-    description: Allow Main Command
+  consumefood.command.help:
+    description: Allow help command
+    default: op
+  consumefood.command.reload:
+    description: Allow reload command
+    default: op
+  consumefood.command.edit:
+    description: Allow edit command
+    default: op
+  consumefood.command.get:
+    description: Allow get command
+    default: op
+  consumefood.command.hunger:
+    description: Allow hunger command
+    default: op
+  consumefood.command.customhunger:
+    description: Allow customhunger command
+    default: op
+  consumefood.command.saturation:
+    description: Allow saturation command
     default: op

@@ -89,4 +89,12 @@ public class Util {
         return s;
     }
 
+    public String getPermissionErrorMessage() {
+        String s = null;
+        if (ConsumeFood.messageConfig.getConfig().contains("Permission-Error")) {
+            s = ConsumeFood.messageConfig.getConfig().getString("Permission-Error");
+        }
+        return s;
+    }
+
 }

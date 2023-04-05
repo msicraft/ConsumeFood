@@ -1,12 +1,11 @@
 package me.msicraft.consumefood;
 
-import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.Util;
-import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import me.msicraft.consumefood.Command.MainCommand;
 import me.msicraft.consumefood.Command.MainTabComplete;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.ConsumeFoodPlaceholder;
 import me.msicraft.consumefood.Compatibility.QuestOrAchievementEvent;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.CustomFood.Event.CustomFoodBlockEvent;
 import me.msicraft.consumefood.CustomFood.Event.CustomFoodChatEditEvent;
 import me.msicraft.consumefood.CustomFood.Event.CustomFoodEditInvEvent;
@@ -20,6 +19,7 @@ import me.msicraft.consumefood.PlayerHunger.Event.PlayerHungerEvent;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import me.msicraft.consumefood.PlayerHunger.Task.PlayerHungerTask;
 import me.msicraft.consumefood.VanillaFood.Event.FoodConsumeEvent;
+import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -144,6 +144,7 @@ public final class ConsumeFood extends JavaPlugin {
                 new ConsumeFoodPlaceholder(this).register();
             }
         }
+        applyMessageContentChange();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + prefix + " Plugin Enable");
         Bukkit.getScheduler().runTask(ConsumeFood.getPlugin(), ()-> {
             HashMap<CustomFoodEditEnum, Boolean> temp = new HashMap<>();
@@ -172,6 +173,17 @@ public final class ConsumeFood extends JavaPlugin {
     public void onDisable() {
         playerHungerUtil.saveAllCustomFoodMap();
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + prefix + ChatColor.RED +" Plugin Disable");
+    }
+
+    private void applyMessageContentChange() {
+        boolean hasChange = false;
+        if (messageConfig.getConfig().contains("Permission-Error")) {
+            messageConfig.getConfig().set("Permission-Error", "&cYou don't have permission");
+            hasChange = true;
+        }
+        if (hasChange) {
+            messageConfig.saveConfig();
+        }
     }
 
     private void eventRegister() {

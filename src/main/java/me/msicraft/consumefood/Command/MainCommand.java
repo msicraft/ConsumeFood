@@ -1,7 +1,9 @@
 package me.msicraft.consumefood.Command;
 
-import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
+import me.msicraft.consumefood.API.Util.Util;
+import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.CustomFood.Inventory.CustomFoodEditInv;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import org.bukkit.Bukkit;
@@ -16,6 +18,20 @@ public class MainCommand implements CommandExecutor {
 
     private final PlayerHungerUtil playerHungerUtil = new PlayerHungerUtil();
     private final CustomFoodUtil customFoodUtil = new CustomFoodUtil();
+    private final Util util = new Util();
+
+    private void sendPermissionMessage(CommandSender sender) {
+        String permissionMessage = util.getPermissionErrorMessage();
+        if (permissionMessage != null && !permissionMessage.equals("")) {
+            if (ConsumeFood.canUsePlaceHolderApi) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    permissionMessage = PlaceHolderApiUtil.getApplyPlaceHolder(player, permissionMessage);
+                }
+            }
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', permissionMessage));
+        }
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -28,6 +44,10 @@ public class MainCommand implements CommandExecutor {
                 if (var != null) {
                     switch (var) {
                         case "help":
+                            if (!sender.hasPermission("consumefood.command.help")) {
+                                sendPermissionMessage(sender);
+                                return false;
+                            }
                             if (args.length == 1) {
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood help : " + ChatColor.WHITE + "Show the list of commands of the [ConsumeFood] plugin");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood reload : " + ChatColor.WHITE + "Reload the plugin config files");
@@ -37,32 +57,38 @@ public class MainCommand implements CommandExecutor {
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood hunger get <player> : " + ChatColor.WHITE + "Get player food level");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood saturation set <player> <amount> : " + ChatColor.WHITE + "Set player saturation");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood saturation get <player> : " + ChatColor.WHITE + "Get player saturation");
-                                sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger get <player> : " + ChatColor.WHITE + "Get player custom food level");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger set <player> <amount> : " + ChatColor.WHITE + "Set player custom food level");
+                                sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger get <player> : " + ChatColor.WHITE + "Get player custom food level");
                             }
                             break;
                         case "reload":
                             if (args.length == 1) {
-                                if (sender.isOp()) {
-                                    ConsumeFood.getPlugin().configFilesReload();
-                                    sender.sendMessage(ConsumeFood.prefix + ChatColor.GREEN + " Plugin config files reloaded");
+                                if (!sender.hasPermission("consumefood.command.reload")) {
+                                    sendPermissionMessage(sender);
+                                    return false;
                                 }
+                                ConsumeFood.getPlugin().configFilesReload();
+                                sender.sendMessage(ConsumeFood.prefix + ChatColor.GREEN + " Plugin config files reloaded");
                             }
                             break;
                         case "edit":
                             if (sender instanceof Player) {
                                 Player player = (Player) sender;
-                                if (player.isOp()) {
-                                    CustomFoodEditInv customFoodEditInv = new CustomFoodEditInv(player);
-                                    player.openInventory(customFoodEditInv.getInventory());
-                                    customFoodEditInv.setMainInv(player);
-                                } else {
-                                    player.sendMessage(ChatColor.RED + "you don't have permission");
+                                if (!player.hasPermission("consumefood.command.edit")) {
+                                    sendPermissionMessage(sender);
+                                    return false;
                                 }
+                                CustomFoodEditInv customFoodEditInv = new CustomFoodEditInv(player);
+                                player.openInventory(customFoodEditInv.getInventory());
+                                customFoodEditInv.setMainInv(player);
                             }
                             break;
                     }
-                    if (args.length >= 2 && var.equals("get") && sender.isOp()) { //consume get <player> <internalname> <amount>
+                    if (args.length >= 2 && var.equals("get")) { //consume get <player> <internalname> <amount>
+                        if (!sender.hasPermission("consumefood.command.get")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
                         try {
                             if (args[1] != null && args[2] != null && args[3] != null) {
                                 Player target = Bukkit.getPlayer(args[1]);
@@ -74,7 +100,7 @@ public class MainCommand implements CommandExecutor {
                                             amount = 1;
                                         }
                                         ItemStack itemStack = customFoodUtil.getCustomFood(internalName, ConsumeFood.bukkitBrandType);
-                                        for (int a = 0; a<amount; a++) {
+                                        for (int a = 0; a < amount; a++) {
                                             target.getInventory().addItem(itemStack);
                                         }
                                     } else {
@@ -91,7 +117,11 @@ public class MainCommand implements CommandExecutor {
                         }
                         return true;
                     }
-                    if (args.length >= 2 && var.equals("hunger") && sender.isOp()) {
+                    if (args.length >= 2 && var.equals("hunger")) {
+                        if (!sender.hasPermission("consumefood.command.hunger")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
                         String s = args[1];
                         if (s != null) {
                             switch (s) {
@@ -138,7 +168,11 @@ public class MainCommand implements CommandExecutor {
                         }
                         return true;
                     }
-                    if (args.length >= 2 && var.equals("customhunger") && sender.isOp()) {
+                    if (args.length >= 2 && var.equals("customhunger")) {
+                        if (!sender.hasPermission("consumefood.command.customhunger")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
                         String s = args[1];
                         if (s != null) {
                             switch (s) {
@@ -185,7 +219,11 @@ public class MainCommand implements CommandExecutor {
                         }
                         return true;
                     }
-                    if (args.length >= 2 && var.equals("saturation") && sender.isOp()) {
+                    if (args.length >= 2 && var.equals("saturation")) {
+                        if (!sender.hasPermission("consumefood.command.saturation")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
                         String s = args[1];
                         if (s != null) {
                             switch (s) {
