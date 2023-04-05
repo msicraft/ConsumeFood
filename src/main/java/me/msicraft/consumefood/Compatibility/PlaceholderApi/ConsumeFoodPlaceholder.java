@@ -44,8 +44,6 @@ public class ConsumeFoodPlaceholder extends PlaceholderExpansion {
             return s;
         } else if (params.equalsIgnoreCase("max_foodlevel")) {
             return String.valueOf(playerHungerUtil.getMaxFoodLevel());
-        } else if (params.equalsIgnoreCase("max_saturation")) {
-            return String.valueOf(playerHungerUtil.getMaxSaturation());
         }
         return null;
     }

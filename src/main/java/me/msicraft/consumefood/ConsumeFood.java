@@ -20,6 +20,7 @@ import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import me.msicraft.consumefood.PlayerHunger.Task.PlayerHungerTask;
 import me.msicraft.consumefood.VanillaFood.Event.FoodConsumeEvent;
 import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
+import me.msicraft.consumefood.bstat.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -42,6 +43,7 @@ public final class ConsumeFood extends JavaPlugin {
 
     private static ConsumeFood plugin;
     public static int bukkitBrandType; // 0 = can use paper-api | 1 = can't use paper-api
+    private final int pluginId = 98139;
 
     protected FileConfiguration config;
 
@@ -167,6 +169,16 @@ public final class ConsumeFood extends JavaPlugin {
                 }
             }
         });
+        new BukkitChecker(this, pluginId).getPluginUpdateCheck(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                getLogger().info("There is not a new update available.");
+            } else {
+                getLogger().info("A new version of the plugin is available: (v" + version + "), Current: v" + getDescription().getVersion());
+                getLogger().info("If the current version is higher, it is the development version.");
+            }
+        });
+        Metrics metrics = new Metrics(this, 18144);
+        getLogger().info("Enabled metrics. You may opt-out by changing plugins/bStats/config.yml");
     }
 
     @Override
@@ -177,11 +189,12 @@ public final class ConsumeFood extends JavaPlugin {
 
     private void applyMessageContentChange() {
         boolean hasChange = false;
-        if (messageConfig.getConfig().contains("Permission-Error")) {
+        if (!messageConfig.getConfig().contains("Permission-Error")) {
             messageConfig.getConfig().set("Permission-Error", "&cYou don't have permission");
             hasChange = true;
         }
         if (hasChange) {
+            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + prefix + " Configuration in message.yml has been added");
             messageConfig.saveConfig();
         }
     }
