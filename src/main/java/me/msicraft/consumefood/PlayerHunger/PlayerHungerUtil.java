@@ -1,9 +1,7 @@
 package me.msicraft.consumefood.PlayerHunger;
 
 import me.msicraft.consumefood.API.Util.Util;
-import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

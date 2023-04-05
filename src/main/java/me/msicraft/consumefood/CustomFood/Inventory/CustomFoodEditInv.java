@@ -1,9 +1,9 @@
 package me.msicraft.consumefood.CustomFood.Inventory;
 
-import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.PaperApiUtil;
 import me.msicraft.consumefood.API.Util.SpigotUtil;
 import me.msicraft.consumefood.ConsumeFood;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

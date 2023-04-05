@@ -1,13 +1,13 @@
 package me.msicraft.consumefood.VanillaFood.Event;
 
 import me.msicraft.consumefood.API.CustomEvent.VanillaFoodConsumeEvent;
-import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.API.Util.Util;
-import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.Enum.VanillaFoodEnum;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
+import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

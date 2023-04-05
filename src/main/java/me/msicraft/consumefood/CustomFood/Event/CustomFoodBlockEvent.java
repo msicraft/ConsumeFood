@@ -1,7 +1,7 @@
 package me.msicraft.consumefood.CustomFood.Event;
 
-import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.ConsumeFood;
+import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
