@@ -1,10 +1,12 @@
 package me.msicraft.consumefood.VanillaFood;
 
+import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.VanillaFoodEnum;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -145,7 +147,7 @@ public class VanillaFoodUtil {
         }
     }
 
-    public void applyConsumeFood(Player player, int foodLevel, float saturation, VanillaFoodEnum vanillaFoodEnum, EquipmentSlot slot) {
+    public void applyConsumeFood(Player player, int foodLevel, float saturation, VanillaFoodEnum vanillaFoodEnum, EquipmentSlot slot, ItemStack itemStack) {
         player.setFoodLevel(foodLevel);
         player.setSaturation(saturation);
         if (hasPotionEffect(vanillaFoodEnum)) {
@@ -158,6 +160,26 @@ public class VanillaFoodUtil {
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         } else if (slot == EquipmentSlot.OFF_HAND) {
             player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
+        }
+        if (Util.isReturnBowlOrBottleEnabled()) {
+            Util.putInType putInType = Util.getInBowlOrBottleType(itemStack);
+            ItemStack putItemStack = null;
+            int emptySlot = Util.getPlayerEmptySlot(player);
+            switch (putInType) {
+                case BOWL:
+                    putItemStack = new ItemStack(Material.BOWL, 1);
+                    break;
+                case BOTTLE:
+                    putItemStack = new ItemStack(Material.GLASS_BOTTLE, 1);
+                    break;
+            }
+            if (putItemStack != null) {
+                if (emptySlot == -1) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), putItemStack);
+                } else {
+                    player.getInventory().addItem(putItemStack);
+                }
+            }
         }
     }
 

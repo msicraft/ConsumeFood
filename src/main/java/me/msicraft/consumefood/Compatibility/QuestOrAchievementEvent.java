@@ -252,7 +252,7 @@ public class QuestOrAchievementEvent implements Listener {
                         long time = System.currentTimeMillis();
                         switch (cdType) {
                             case "disable":
-                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot);
+                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
                                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
@@ -274,7 +274,7 @@ public class QuestOrAchievementEvent implements Listener {
                                     }
                                 }
                                 vanillaFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot);
+                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
                                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
@@ -302,7 +302,7 @@ public class QuestOrAchievementEvent implements Listener {
                                 long cd = (long) (time + (personalCooldown * 1000));
                                 temp.put(key, cd);
                                 vanillaFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot);
+                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
                         }

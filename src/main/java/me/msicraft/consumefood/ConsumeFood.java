@@ -142,11 +142,12 @@ public final class ConsumeFood extends JavaPlugin {
         if (plugin.getConfig().getBoolean("Compatibility.PlaceholderAPI")) {
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 canUsePlaceHolderApi = true;
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + prefix + " Detect PlaceHolderApi plugin");
+                Bukkit.getConsoleSender().sendMessage(prefix + " Detect PlaceHolderApi plugin");
                 new ConsumeFoodPlaceholder(this).register();
             }
         }
         applyMessageContentChange();
+        applyConfigContentChange();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + prefix + " Plugin Enable");
         Bukkit.getScheduler().runTask(ConsumeFood.getPlugin(), ()-> {
             HashMap<CustomFoodEditEnum, Boolean> temp = new HashMap<>();
@@ -189,13 +190,30 @@ public final class ConsumeFood extends JavaPlugin {
 
     private void applyMessageContentChange() {
         boolean hasChange = false;
-        if (!messageConfig.getConfig().contains("Permission-Error")) {
+        if (!messageConfig.getConfig().contains("Permission-Error", true)) {
             messageConfig.getConfig().set("Permission-Error", "&cYou don't have permission");
             hasChange = true;
         }
         if (hasChange) {
-            getServer().getConsoleSender().sendMessage(ChatColor.GREEN + prefix + " Configuration in message.yml has been added");
+            getServer().getConsoleSender().sendMessage(prefix + " Configuration in message.yml has been added");
+            messageConfig.getConfig().options().header(
+                    "If you don't need a message, leave a blank. " +
+                            "Placeholders are available (ex. %player_name%)")
+                    .copyDefaults(true);
             messageConfig.saveConfig();
+        }
+    }
+
+    private void applyConfigContentChange() {
+        boolean hasChange = false;
+        if (!plugin.getConfig().contains("CustomSetting.Return-BowlOrBottle",true)) {
+            plugin.getConfig().set("CustomSetting.Return-BowlOrBottle", true);
+            hasChange = true;
+        }
+        if (hasChange) {
+            getServer().getConsoleSender().sendMessage(prefix + " Configuration in config.yml has been added");
+            saveConfig();
+            reloadConfig();
         }
     }
 

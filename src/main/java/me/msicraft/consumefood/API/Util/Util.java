@@ -4,9 +4,13 @@ import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 
 public class Util {
@@ -95,6 +99,46 @@ public class Util {
             s = ConsumeFood.messageConfig.getConfig().getString("Permission-Error");
         }
         return s;
+    }
+
+    public static boolean isReturnBowlOrBottleEnabled() {
+        boolean check = false;
+        if (ConsumeFood.getPlugin().getConfig().contains("CustomSetting.Return-BowlOrBottle")) {
+            check = ConsumeFood.getPlugin().getConfig().getBoolean("CustomSetting.Return-BowlOrBottle");
+        }
+        return check;
+    }
+
+    private static final ArrayList<Material> bowlMaterials = new ArrayList<>(Arrays.asList(Material.BEETROOT_SOUP, Material.MUSHROOM_STEW, Material.RABBIT_STEW));
+    private static final ArrayList<Material> bottleMaterials = new ArrayList<>(Arrays.asList(Material.HONEY_BOTTLE));
+
+    public enum putInType {
+        BOWL, BOTTLE, NONE
+    }
+
+    public static putInType getInBowlOrBottleType(ItemStack itemStack) {
+        Material material = itemStack.getType();
+        if (bowlMaterials.contains(material)) {
+            return putInType.BOWL;
+        }
+        if (bottleMaterials.contains(material)) {
+            return putInType.BOTTLE;
+        }
+        return putInType.NONE;
+    }
+
+    public static int getPlayerEmptySlot(Player player) {
+        int slot = -1;
+        int size = 36;
+        for (int a = 0; a<size; a++) {
+            ItemStack itemStack = player.getInventory().getItem(a);
+            if (itemStack == null) {
+                slot = a;
+                break;
+            }
+
+        }
+        return slot;
     }
 
 }

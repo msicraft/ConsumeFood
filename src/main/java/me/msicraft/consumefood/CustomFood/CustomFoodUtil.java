@@ -2,6 +2,7 @@ package me.msicraft.consumefood.CustomFood;
 
 import me.msicraft.consumefood.API.Util.PaperApiUtil;
 import me.msicraft.consumefood.API.Util.SpigotUtil;
+import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
@@ -313,7 +314,7 @@ public class CustomFoodUtil {
         }
     }
 
-    public void applyConsumeCustomFood(Player player, int foodlevel, float saturation, String internalName, EquipmentSlot slot) {
+    public void applyConsumeCustomFood(Player player, int foodlevel, float saturation, String internalName, EquipmentSlot slot, ItemStack itemStack) {
         player.setFoodLevel(foodlevel);
         player.setSaturation(saturation);
         if (hasPotionEffect(internalName)) {
@@ -323,9 +324,31 @@ public class CustomFoodUtil {
             applyExecuteCommand(player, internalName);
         }
         if (slot == EquipmentSlot.HAND) {
+            itemStack = player.getInventory().getItemInMainHand();
             player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
         } else if (slot == EquipmentSlot.OFF_HAND) {
+            itemStack = player.getInventory().getItemInOffHand();
             player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
+        }
+        if (Util.isReturnBowlOrBottleEnabled()) {
+            Util.putInType putInType = Util.getInBowlOrBottleType(itemStack);
+            ItemStack putItemStack = null;
+            int emptySlot = Util.getPlayerEmptySlot(player);
+            switch (putInType) {
+                case BOWL:
+                    putItemStack = new ItemStack(Material.BOWL, 1);
+                    break;
+                case BOTTLE:
+                    putItemStack = new ItemStack(Material.GLASS_BOTTLE, 1);
+                    break;
+            }
+            if (putItemStack != null) {
+                if (emptySlot == -1) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), putItemStack);
+                } else {
+                    player.getInventory().addItem(putItemStack);
+                }
+            }
         }
     }
 

@@ -20,6 +20,7 @@ CustomSetting:
   Max-FoodLevel: 20
   Max-Saturation: 10
   Sprint-FoodLevel: 6
+  Return-BowlOrBottle: true
 
 # If 'Max-Consumable' is true, the player can eat food even if the player's hunger bar is full..
 # But this doesn't play the food eating animation.
