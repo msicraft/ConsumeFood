@@ -12,6 +12,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.Random;
@@ -129,22 +130,33 @@ public class VanillaFoodUtil {
 
     public void applyExecuteCommand(Player player, VanillaFoodEnum vanillaFoodEnum) {
         List<String> commandList = ConsumeFood.getPlugin().getConfig().getStringList("Food." + vanillaFoodEnum.name() + ".Command");
-        for (String commands : commandList) {
-            String[] a = commands.split(":");
-            String sender = a[0];
-            String command = a[1];
-            String replace_command;
-            if (ConsumeFood.canUsePlaceHolderApi) {
-                replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
-            } else {
-                replace_command = command;
+        new BukkitRunnable() {
+            private int count = 0;
+            private final int max = commandList.size();
+            @Override
+            public void run() {
+                if (count >= max) {
+                    cancel();
+                    return;
+                }
+                String commands = commandList.get(count);
+                String[] a = commands.split(":");
+                String sender = a[0].toLowerCase();
+                String command = a[1];
+                String replace_command;
+                if (ConsumeFood.canUsePlaceHolderApi) {
+                    replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
+                } else {
+                    replace_command = command;
+                }
+                if (sender.equalsIgnoreCase("console")) {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), replace_command);
+                } else if (sender.equalsIgnoreCase("player")) {
+                    Bukkit.getServer().dispatchCommand(player, replace_command);
+                }
+                count++;
             }
-            if (sender.equals("player")) {
-                Bukkit.getServer().dispatchCommand(player, replace_command);
-            } else if (sender.equals("console")) {
-                Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), replace_command);
-            }
-        }
+        }.runTaskTimer(ConsumeFood.getPlugin(), 0, 1);
     }
 
     public void applyConsumeFood(Player player, int foodLevel, float saturation, VanillaFoodEnum vanillaFoodEnum, EquipmentSlot slot, ItemStack itemStack) {
