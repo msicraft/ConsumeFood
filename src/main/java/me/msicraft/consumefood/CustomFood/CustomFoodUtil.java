@@ -11,14 +11,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +204,14 @@ public class CustomFoodUtil {
         return list;
     }
 
+    public List<String> getEnchantList(String internalName) {
+        List<String> list = new ArrayList<>();
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".Enchant")) {
+            list.addAll(ConsumeFood.customFoodConfig.getConfig().getStringList("CustomFood." + internalName + ".Enchant"));
+        }
+        return list;
+    }
+
     public ItemStack getCustomFood(String internalName, int brandType) {
         ItemStack itemStack = null;
         Material material = getMaterial(internalName);
@@ -224,6 +235,9 @@ public class CustomFoodUtil {
         }
         if (itemStack != null) {
             addCustomFoodDataTag(itemStack, internalName);
+            if (hasEnchant(internalName)) {
+                applyEnchantment(itemStack, internalName);
+            }
         }
         return itemStack;
     }
@@ -275,9 +289,9 @@ public class CustomFoodUtil {
             PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
             int level = Integer.parseInt(a[1]);
             int duration = Integer.parseInt(a[2]);
-            double change = Double.parseDouble(a[3]);
+            double chance = Double.parseDouble(a[3]);
             if (potionEffectType != null) {
-                if (Math.random() <= change) {
+                if (Math.random() <= chance) {
                     int potionLevel = level - 1;
                     if (potionLevel < 0) {
                         potionLevel = 0;
@@ -296,22 +310,63 @@ public class CustomFoodUtil {
 
     public void applyExecuteCommand(Player player, String internalName) {
         List<String> commandList = getCommandList(internalName);
-        for (String commands : commandList) {
-            String[] a = commands.split(":");
-            String sender = a[0];
-            String command = a[1];
-            String replace_command;
-            if (ConsumeFood.canUsePlaceHolderApi) {
-                replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
-            } else {
-                replace_command = command;
+        new BukkitRunnable() {
+            private int count = 0;
+            private final int max = commandList.size();
+            @Override
+            public void run() {
+                if (count >= max) {
+                    cancel();
+                    return;
+                }
+                String commands = commandList.get(count);
+                String[] a = commands.split(":");
+                String sender = a[0].toLowerCase();
+                String command = a[1];
+                String replace_command;
+                if (ConsumeFood.canUsePlaceHolderApi) {
+                    replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
+                } else {
+                    replace_command = command;
+                }
+                if (sender.equalsIgnoreCase("console")) {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), replace_command);
+                } else if (sender.equalsIgnoreCase("player")) {
+                    Bukkit.getServer().dispatchCommand(player, replace_command);
+                }
+                count++;
             }
-            if (sender.equals("player")) {
-                Bukkit.getServer().dispatchCommand(player, replace_command);
-            } else if (sender.equals("console")) {
-                Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), replace_command);
+        }.runTaskTimer(ConsumeFood.getPlugin(), 0, 1);
+    }
+
+    public boolean hasEnchant(String internalName) {
+        return !getEnchantList(internalName).isEmpty();
+    }
+
+    public void applyEnchantment(ItemStack itemStack, String internalName) {
+        List<String> enchantList = getEnchantList(internalName);
+        for (String enchants: enchantList) {
+            String[] a = enchants.split(":");
+            String enchantS = a[0];
+            int level = Integer.parseInt(a[1]);
+            Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantS));
+            if (enchantment != null) {
+                itemStack.addUnsafeEnchantment(enchantment, level);
             }
         }
+        if (hideEnchant(internalName)) {
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            itemStack.setItemMeta(itemMeta);
+        }
+    }
+
+    public boolean hideEnchant(String internalName) {
+        boolean check = false;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".HideEnchant")) {
+            check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".HideEnchant");
+        }
+        return check;
     }
 
     public void applyConsumeCustomFood(Player player, int foodlevel, float saturation, String internalName, EquipmentSlot slot, ItemStack itemStack) {

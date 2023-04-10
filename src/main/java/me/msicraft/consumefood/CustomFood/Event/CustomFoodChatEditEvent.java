@@ -118,6 +118,11 @@ public class CustomFoodChatEditEvent implements Listener {
                         getCommands.add(message);
                         ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + customFoodEditEnum.name(), getCommands);
                         break;
+                    case Enchant:
+                        List<String> getEnchants = customFoodUtil.getEnchantList(internalName);
+                        getEnchants.add(message);
+                        ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + customFoodEditEnum.name(), getEnchants);
+                        break;
                 }
                 ConsumeFood.customFoodConfig.saveConfig();
             }

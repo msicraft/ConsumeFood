@@ -43,7 +43,6 @@ public final class ConsumeFood extends JavaPlugin {
 
     private static ConsumeFood plugin;
     public static int bukkitBrandType; // 0 = can use paper-api | 1 = can't use paper-api
-    private final int pluginId = 98139;
 
     protected FileConfiguration config;
 
@@ -170,6 +169,7 @@ public final class ConsumeFood extends JavaPlugin {
                 }
             }
         });
+        int pluginId = 98139;
         new BukkitChecker(this, pluginId).getPluginUpdateCheck(version -> {
             if (this.getDescription().getVersion().equals(version)) {
                 getLogger().info("There is not a new update available.");

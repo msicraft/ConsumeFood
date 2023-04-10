@@ -106,6 +106,20 @@ public class CustomFoodEditInv implements InventoryHolder {
                         }
                         itemStack = createNormalItem(Material.COMMAND_BLOCK, ChatColor.WHITE + "Execute Command", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
+                    case Enchant:
+                        loreList.add(ChatColor.GRAY + "Current Enchants: ");
+                        for (String s : customFoodUtil.getEnchantList(internalName)) {
+                            loreList.add(ChatColor.WHITE + s);
+                        }
+                        itemStack = createNormalItem(Material.ENCHANTED_BOOK, ChatColor.WHITE + "Enchant", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
+                    case HideEnchant:
+                        List<String> temp = new ArrayList<>();
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.hideEnchant(internalName));
+                        itemStack = createNormalItem(Material.NETHER_STAR, ChatColor.WHITE + "Hide Enchant", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
                 }
                 customFoodEditInv.setItem(slot, itemStack);
                 count++;

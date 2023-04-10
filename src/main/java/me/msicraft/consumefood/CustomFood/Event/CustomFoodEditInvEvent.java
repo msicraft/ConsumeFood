@@ -1,5 +1,7 @@
 package me.msicraft.consumefood.CustomFood.Event;
 
+import me.msicraft.consumefood.API.Util.Util;
+import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.CustomFood.Inventory.CustomFoodEditInv;
@@ -25,7 +27,19 @@ import java.util.UUID;
 public class CustomFoodEditInvEvent implements Listener {
 
     private final CustomFoodUtil customFoodUtil = new CustomFoodUtil();
+    private final Util util = new Util();
+
     public HashMap<UUID, String> page_count = new HashMap<>();
+
+    private void sendPermissionMessage(Player player) {
+        String permissionMessage = util.getPermissionErrorMessage();
+        if (permissionMessage != null && !permissionMessage.equals("")) {
+            if (ConsumeFood.canUsePlaceHolderApi) {
+                permissionMessage = PlaceHolderApiUtil.getApplyPlaceHolder(player, permissionMessage);
+            }
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permissionMessage));
+        }
+    }
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
@@ -88,12 +102,16 @@ public class CustomFoodEditInvEvent implements Listener {
                             break;
                         }
                         case "create":
-                            player.closeInventory();
-                            player.sendMessage(ChatColor.YELLOW + "========================================");
-                            player.sendMessage(ChatColor.GRAY + " Please enter internal_name");
-                            player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
-                            player.sendMessage(ChatColor.YELLOW + "========================================");
-                            ConsumeFood.setCustomFoodEditMap(player, CustomFoodEditEnum.isCreate, true);
+                            if (player.hasPermission("consumefood.customfood.create")) {
+                                player.closeInventory();
+                                player.sendMessage(ChatColor.YELLOW + "========================================");
+                                player.sendMessage(ChatColor.GRAY + " Please enter internal_name");
+                                player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
+                                player.sendMessage(ChatColor.YELLOW + "========================================");
+                                ConsumeFood.setCustomFoodEditMap(player, CustomFoodEditEnum.isCreate, true);
+                            } else {
+                                sendPermissionMessage(player);
+                            }
                             break;
                     }
                 }
@@ -102,20 +120,32 @@ public class CustomFoodEditInvEvent implements Listener {
                 if (internalName != null) {
                     switch (clickType) {
                         case LEFT:
-                            player.openInventory(customFoodEditInv.getInventory());
-                            customFoodEditInv.editInv(internalName);
+                            if (player.hasPermission("consumefood.customfood.edit." + internalName)) {
+                                player.openInventory(customFoodEditInv.getInventory());
+                                customFoodEditInv.editInv(internalName);
+                            } else {
+                                sendPermissionMessage(player);
+                            }
                             break;
                         case RIGHT:
-                            ItemStack getStack = customFoodUtil.getCustomFood(internalName, ConsumeFood.bukkitBrandType);
-                            if (getStack != null) {
-                                player.getInventory().addItem(getStack);
+                            if (player.hasPermission("consumefood.customfood.get." + internalName)) {
+                                ItemStack getStack = customFoodUtil.getCustomFood(internalName, ConsumeFood.bukkitBrandType);
+                                if (getStack != null) {
+                                    player.getInventory().addItem(getStack);
+                                }
+                            } else {
+                                sendPermissionMessage(player);
                             }
                             break;
                         case SHIFT_LEFT:
-                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName, null);
-                            ConsumeFood.customFoodConfig.saveConfig();
-                            player.openInventory(customFoodEditInv.getInventory());
-                            customFoodEditInv.setMainInv(player);
+                            if (player.hasPermission("consumefood.customfood.remove." + internalName)) {
+                                ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName, null);
+                                ConsumeFood.customFoodConfig.saveConfig();
+                                player.openInventory(customFoodEditInv.getInventory());
+                                customFoodEditInv.setMainInv(player);
+                            } else {
+                                sendPermissionMessage(player);
+                            }
                             break;
                     }
                 }
@@ -134,6 +164,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                 PersistentDataContainer data = itemMeta.getPersistentDataContainer();
                                 internalName = data.get(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-CustomFood-Editing"), PersistentDataType.STRING);
                             }
+                            boolean isUseEdit = true;
                             if (internalName != null) {
                                 switch (var) {
                                     case "Material":
@@ -143,6 +174,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, "stone");
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -154,6 +186,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, "");
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -165,6 +198,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, "");
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -176,6 +210,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + ".Data", -1);
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -187,6 +222,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             List<String> getLore = customFoodUtil.getLore(internalName);
                                             if (!getLore.isEmpty()) {
                                                 List<String> replaceLore = new ArrayList<>(getLore);
@@ -203,6 +239,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, 0);
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -214,6 +251,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, 0);
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -225,6 +263,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, 0);
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
@@ -237,6 +276,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             List<String> getLore = customFoodUtil.getPotionEffectList(internalName);
                                             if (!getLore.isEmpty()) {
                                                 List<String> replaceLore = new ArrayList<>(getLore);
@@ -255,6 +295,7 @@ public class CustomFoodEditInvEvent implements Listener {
                                             player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
                                             player.sendMessage(ChatColor.YELLOW + "========================================");
                                         } else {
+                                            isUseEdit = false;
                                             List<String> getLore = customFoodUtil.getCommandList(internalName);
                                             if (!getLore.isEmpty()) {
                                                 List<String> replaceLore = new ArrayList<>(getLore);
@@ -264,8 +305,38 @@ public class CustomFoodEditInvEvent implements Listener {
                                             }
                                         }
                                         break;
+                                    case "Enchant":
+                                        if (clickType == ClickType.LEFT) {
+                                            player.sendMessage(ChatColor.YELLOW + "========================================");
+                                            player.sendMessage(ChatColor.GRAY + " Please enter enchant");
+                                            player.sendMessage(ChatColor.GRAY + " Format: <enchant>:<level>");
+                                            player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
+                                            player.sendMessage(ChatColor.YELLOW + "========================================");
+                                        } else {
+                                            isUseEdit = false;
+                                            List<String> getEnchants = customFoodUtil.getEnchantList(internalName);
+                                            if (!getEnchants.isEmpty()) {
+                                                List<String> replace = new ArrayList<>(getEnchants);
+                                                replace.remove((getEnchants.size() - 1));
+                                                ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, replace);
+                                                ConsumeFood.customFoodConfig.saveConfig();
+                                            }
+                                        }
+                                        break;
+                                    case "HideEnchant":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.hideEnchant(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
                                 }
-                                if (clickType == ClickType.LEFT) {
+                                if (isUseEdit) {
                                     player.closeInventory();
                                     ConsumeFood.setCustomFoodEditMap(player, CustomFoodEditEnum.isEnabled, true);
                                     ConsumeFood.setCustomFoodEditMap(player, CustomFoodEditEnum.valueOf(var), true);
