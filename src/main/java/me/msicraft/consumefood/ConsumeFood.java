@@ -1,5 +1,6 @@
 package me.msicraft.consumefood;
 
+import me.msicraft.consumefood.API.Util.BukkitChecker;
 import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.Command.MainCommand;
 import me.msicraft.consumefood.Command.MainTabComplete;

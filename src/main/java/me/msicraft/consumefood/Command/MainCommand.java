@@ -4,15 +4,16 @@ import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
+import me.msicraft.consumefood.CustomFood.CustomItemUtil;
 import me.msicraft.consumefood.CustomFood.Inventory.CustomFoodEditInv;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,6 +24,7 @@ public class MainCommand implements CommandExecutor {
     private final PlayerHungerUtil playerHungerUtil = new PlayerHungerUtil();
     private final CustomFoodUtil customFoodUtil = new CustomFoodUtil();
     private final Util util = new Util();
+    private final CustomItemUtil customItemUtil = new CustomItemUtil();
 
     private void sendPermissionMessage(CommandSender sender) {
         String permissionMessage = util.getPermissionErrorMessage();
@@ -47,13 +49,6 @@ public class MainCommand implements CommandExecutor {
                 String var = args[0];
                 if (var != null) {
                     switch (var) {
-                        case "test":
-                            if (sender instanceof Player) {
-                                Player player = (Player) sender;
-                                ItemStack itemStack = player.getInventory().getItemInMainHand();
-                                itemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 2);
-                            }
-                            break;
                         case "help":
                             if (!sender.hasPermission("consumefood.command.help")) {
                                 sendPermissionMessage(sender);
@@ -104,6 +99,48 @@ public class MainCommand implements CommandExecutor {
                                 customFoodEditInv.setMainInv(player);
                             }
                             break;
+                    }
+                    if (args.length >= 2 && var.equals("import")) { //consume import <internalname> <[optional]type:[0,1]>
+                        if (!sender.hasPermission("consumefood.command.import")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
+                        if (sender instanceof Player) {
+                            Player player = (Player) sender;
+                            boolean isSuccess = false;
+                            String internalName = null;
+                            CustomItemUtil.importType importType = CustomItemUtil.importType.SIMPLE;
+                            ItemStack itemStack = null;
+                            try {
+                                internalName = args[1];
+                                //String type = args[2];
+                                if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName)) {
+                                    player.sendMessage(ChatColor.RED + "This internalname already exists.");
+                                    return false;
+                                }
+                                itemStack = player.getInventory().getItemInMainHand();
+                                if (itemStack.getType() == Material.AIR) {
+                                    player.sendMessage(ChatColor.RED + "Please hold the item in your hand");
+                                    return false;
+                                }
+                                isSuccess = true;
+                            } catch (ArrayIndexOutOfBoundsException e) {
+                                player.sendMessage(ChatColor.RED + "/consumefood import <internalname> [importType:<simple,all>]");
+                            }
+                            if (isSuccess) {
+                                try {
+                                    importType = CustomItemUtil.importType.valueOf(args[2].toUpperCase());
+                                } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException ex) {
+                                    //
+                                    player.sendMessage(ChatColor.RED + "/consumefood import <internalname> [importType:<simple,all>]");
+                                    return false;
+                                }
+                                ItemStack temp = new ItemStack(itemStack);
+                                temp.setAmount(1);
+                                customItemUtil.importItemStack(player, internalName, temp, importType, ConsumeFood.bukkitBrandType);
+                                return true;
+                            }
+                        }
                     }
                     if (args.length >= 2 && var.equals("get")) { //consume get <player> <internalname> <amount>
                         if (!sender.hasPermission("consumefood.command.get")) {

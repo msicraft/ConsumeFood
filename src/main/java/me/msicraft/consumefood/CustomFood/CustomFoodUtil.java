@@ -165,7 +165,7 @@ public class CustomFoodUtil {
     }
 
     public String getTextureValue(String internalName) {
-        String value = null;
+        String value = "";
         if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".TextureValue")) {
             value = ConsumeFood.customFoodConfig.getConfig().getString("CustomFood." + internalName + ".TextureValue");
         }

@@ -24,6 +24,7 @@ public class MainTabComplete implements TabCompleter {
                 arguments.add("hunger");
                 arguments.add("customhunger");
                 arguments.add("saturation");
+                arguments.add("import");
                 return arguments;
             }
             if (args.length == 3) {
@@ -37,6 +38,22 @@ public class MainTabComplete implements TabCompleter {
                     List<String> arguments = new ArrayList<>();
                     arguments.add("get");
                     arguments.add("set");
+                    return arguments;
+                }
+            }
+            if (args.length == 2) {
+                if (args[0].equals("import")) {
+                    List<String> arguments = new ArrayList<>();
+                    arguments.add("<internalname>");
+                    return arguments;
+                }
+            }
+            if (args.length == 3) {
+                if (args[0].equals("import")) {
+                    List<String> arguments = new ArrayList<>();
+                    arguments.add("[<optional>]");
+                    arguments.add("simple");
+                    arguments.add("all");
                     return arguments;
                 }
             }

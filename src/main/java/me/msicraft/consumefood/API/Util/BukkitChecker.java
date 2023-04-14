@@ -1,6 +1,7 @@
-package me.msicraft.consumefood;
+package me.msicraft.consumefood.API.Util;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
+import me.msicraft.consumefood.ConsumeFood;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
