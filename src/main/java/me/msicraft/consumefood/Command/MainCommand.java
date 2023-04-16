@@ -65,6 +65,8 @@ public class MainCommand implements CommandExecutor {
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood saturation get <player> : " + ChatColor.WHITE + "Get player saturation");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger set <player> <amount> : " + ChatColor.WHITE + "Set player custom food level");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger get <player> : " + ChatColor.WHITE + "Get player custom food level");
+                                sender.sendMessage(ChatColor.YELLOW + "/consumefood import <internalname>]: " + ChatColor.WHITE + "Import the data of an item in your hand");
+                                sender.sendMessage(ChatColor.YELLOW + "/consumefood updateitem [optional:<player>, all]: " + ChatColor.WHITE + "Update customfood in inventory");
                             }
                             break;
                         case "reload":
@@ -99,6 +101,34 @@ public class MainCommand implements CommandExecutor {
                                 customFoodEditInv.setMainInv(player);
                             }
                             break;
+                    }
+                    if (var.equals("updateitem")) { //consume updateitem <[optional]player, all>
+                        if (!sender.hasPermission("consumefood.command.updateitem")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
+                        Player target = null;
+                        String s = null;
+                        try {
+                            if (args[1].equalsIgnoreCase("all")) {
+                                s = args[1];
+                            } else {
+                                target = Bukkit.getPlayer(args[1]);
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            target = (Player) sender;
+                        }
+                        if (s != null && s.equalsIgnoreCase("all")) {
+                            customFoodUtil.updateInventory(sender);
+                            return true;
+                        }
+                        if (target != null && target.isOnline()) {
+                            customFoodUtil.updatePlayerInventory(target, sender);
+                            return true;
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "Player is not online.");
+                        }
+                        return false;
                     }
                     if (args.length >= 2 && var.equals("import")) { //consume import <internalname> <[optional]type:[0,1]>
                         if (!sender.hasPermission("consumefood.command.import")) {

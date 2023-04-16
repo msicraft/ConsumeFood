@@ -10,12 +10,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -405,6 +407,56 @@ public class CustomFoodUtil {
                 }
             }
         }
+    }
+
+    public void updatePlayerInventory(Player player, CommandSender sender) {
+        PlayerInventory playerInventory = player.getInventory();
+        int maxSize = playerInventory.getSize();
+        for (int a = 0; a<maxSize; a++) {
+            ItemStack itemStack = playerInventory.getItem(a);
+            if (itemStack != null && itemStack.getType() != Material.AIR) {
+                if (isCustomFood(itemStack)) {
+                    String internalName = getInternalName(itemStack);
+                    if (internalName != null) {
+                        int amount = itemStack.getAmount();
+                        ItemStack replaceStack = getCustomFood(internalName, ConsumeFood.bukkitBrandType);
+                        replaceStack.setAmount(amount);
+                        playerInventory.setItem(a, replaceStack);
+                    }
+                }
+            }
+        }
+        sender.sendMessage(ChatColor.GREEN + "Custom food in target " + ChatColor.GRAY + player.getName() + ChatColor.GREEN + " inventory is updated");
+    }
+
+    public void updateInventory(CommandSender sender) {
+        long start = System.currentTimeMillis();
+        List<Player> onlinePlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+        int playerCount = 0;
+        for (Player player : onlinePlayers) {
+            if (player.isOnline()) {
+                playerCount++;
+                PlayerInventory playerInventory = player.getInventory();
+                int maxSize = playerInventory.getSize();
+                for (int a = 0; a<maxSize; a++) {
+                    ItemStack itemStack = playerInventory.getItem(a);
+                    if (itemStack != null && itemStack.getType() != Material.AIR) {
+                        if (isCustomFood(itemStack)) {
+                            String internalName = getInternalName(itemStack);
+                            if (internalName != null) {
+                                int amount = itemStack.getAmount();
+                                ItemStack replaceStack = getCustomFood(internalName, ConsumeFood.bukkitBrandType);
+                                replaceStack.setAmount(amount);
+                                playerInventory.setItem(a, replaceStack);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        long end = System.currentTimeMillis();
+        sender.sendMessage(ChatColor.GREEN + "Execution time(s): " + ChatColor.GRAY + ((end - start)/1000.0));
+        sender.sendMessage(ChatColor.GREEN + "Inventory update for a total of " + ChatColor.GRAY + playerCount + ChatColor.GREEN + " players");
     }
 
 }

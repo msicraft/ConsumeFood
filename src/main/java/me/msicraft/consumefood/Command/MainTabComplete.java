@@ -25,6 +25,7 @@ public class MainTabComplete implements TabCompleter {
                 arguments.add("customhunger");
                 arguments.add("saturation");
                 arguments.add("import");
+                arguments.add("updateitem");
                 return arguments;
             }
             if (args.length == 3) {
