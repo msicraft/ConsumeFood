@@ -16,6 +16,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.HashMap;
 
@@ -65,7 +66,7 @@ public class MainCommand implements CommandExecutor {
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood saturation get <player> : " + ChatColor.WHITE + "Get player saturation");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger set <player> <amount> : " + ChatColor.WHITE + "Set player custom food level");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood customhunger get <player> : " + ChatColor.WHITE + "Get player custom food level");
-                                sender.sendMessage(ChatColor.YELLOW + "/consumefood import <internalname>]: " + ChatColor.WHITE + "Import the data of an item in your hand");
+                                sender.sendMessage(ChatColor.YELLOW + "/consumefood import <internalname>: " + ChatColor.WHITE + "Import the data of an item in your hand");
                                 sender.sendMessage(ChatColor.YELLOW + "/consumefood updateitem [optional:<player>, all]: " + ChatColor.WHITE + "Update customfood in inventory");
                             }
                             break;

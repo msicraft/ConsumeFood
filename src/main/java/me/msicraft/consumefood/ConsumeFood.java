@@ -7,10 +7,7 @@ import me.msicraft.consumefood.Command.MainTabComplete;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.ConsumeFoodPlaceholder;
 import me.msicraft.consumefood.Compatibility.QuestOrAchievementEvent;
 import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
-import me.msicraft.consumefood.CustomFood.Event.CustomFoodBlockEvent;
-import me.msicraft.consumefood.CustomFood.Event.CustomFoodChatEditEvent;
-import me.msicraft.consumefood.CustomFood.Event.CustomFoodEditInvEvent;
-import me.msicraft.consumefood.CustomFood.Event.CustomFoodEvent;
+import me.msicraft.consumefood.CustomFood.Event.*;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
 import me.msicraft.consumefood.Event.JoinQuitEvent;
 import me.msicraft.consumefood.File.CustomFoodConfig;
@@ -233,6 +230,7 @@ public final class ConsumeFood extends JavaPlugin {
         pluginManager.registerEvents(new PlayerHungerEvent(), this);
         pluginManager.registerEvents(new CustomFoodEvent(), this);
         pluginManager.registerEvents(new CustomFoodBlockEvent(), this);
+        pluginManager.registerEvents(new CustomFoodDisableUseRecipe(), this);
     }
 
     public void configFilesReload() {

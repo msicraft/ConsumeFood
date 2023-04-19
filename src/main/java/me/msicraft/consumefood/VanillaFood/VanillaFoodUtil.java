@@ -48,6 +48,23 @@ public class VanillaFoodUtil {
         return check;
     }
 
+    public boolean isVanillaFood(String foodName, ItemStack itemStack) {
+        boolean check = false;
+        String s = null;
+        try {
+            s = VanillaFoodEnum.valueOf(foodName.toUpperCase()).name();
+            check = true;
+            if (itemStack.getType() != Material.AIR) {
+                if (itemStack.hasItemMeta()) {
+                    check = false;
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            //Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Food Name: " + ChatColor.WHITE + foodName);
+        }
+        return check;
+    }
+
     public EquipmentSlot getUseHand(Player player, ItemStack itemStack) {
         ItemStack handItem = player.getInventory().getItemInMainHand();
         if (itemStack.isSimilar(handItem)) {

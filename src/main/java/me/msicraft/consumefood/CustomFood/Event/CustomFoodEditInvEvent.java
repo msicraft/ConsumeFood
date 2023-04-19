@@ -335,6 +335,54 @@ public class CustomFoodEditInvEvent implements Listener {
                                             isUseEdit = false;
                                         }
                                         break;
+                                    case "DisableCrafting":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.getDisableCrafting(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
+                                    case "DisableSmelting":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.getDisableSmelting(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
+                                    case "DisableAnvil":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.getDisableAnvil(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
+                                    case "DisableEnchant":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.getDisableEnchant(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
                                 }
                                 if (isUseEdit) {
                                     player.closeInventory();

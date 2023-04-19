@@ -38,7 +38,7 @@ public class FoodConsumeEvent implements Listener {
     public void onConsumeVanillaFood(PlayerItemConsumeEvent e) {
         ItemStack consumeItemStack = e.getItem();
         String foodName = consumeItemStack.getType().name().toUpperCase();
-        if (vanillaFoodUtil.isVanillaFood(foodName) && !customFoodUtil.isCustomFood(consumeItemStack)) {
+        if (vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && !customFoodUtil.isCustomFood(consumeItemStack)) {
             VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
             Player player = e.getPlayer();
             int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
@@ -146,7 +146,7 @@ public class FoodConsumeEvent implements Listener {
             if (consumeItemStack != null && consumeItemStack.getType() != Material.AIR) {
                 Player player = e.getPlayer();
                 String foodName = consumeItemStack.getType().name().toUpperCase();
-                if (!customFoodUtil.isCustomFood(consumeItemStack) && vanillaFoodUtil.isVanillaFood(foodName) && player.getFoodLevel() >= 20) {
+                if (!customFoodUtil.isCustomFood(consumeItemStack) && vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && player.getFoodLevel() >= 20) {
                     if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
                         VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
                         int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();

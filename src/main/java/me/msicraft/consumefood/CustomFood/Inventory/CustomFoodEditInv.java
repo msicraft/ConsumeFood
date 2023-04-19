@@ -31,7 +31,7 @@ public class CustomFoodEditInv implements InventoryHolder {
         customFoodEditInv = Bukkit.createInventory(player, 54, "Custom Food");
     }
 
-    private final int[] slots = {19,20,21,22,23,24,25, 28,29,30,31,32,34, 37,38,39,40,41,42};
+    private final int[] slots = {19,20,21,22,23,24,25, 28,29,30,31,32,33,34, 37,38,39,40,41,42,43};
     private final List<String> tempLore = new ArrayList<>();
 
     public void editInv(String internalName) {
@@ -114,11 +114,49 @@ public class CustomFoodEditInv implements InventoryHolder {
                         itemStack = createNormalItem(Material.ENCHANTED_BOOK, ChatColor.WHITE + "Enchant", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
                     case HideEnchant:
-                        List<String> temp = new ArrayList<>();
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
                         temp.add(ChatColor.YELLOW + "Left click: change value");
                         temp.add("");
                         temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.hideEnchant(internalName));
                         itemStack = createNormalItem(Material.NETHER_STAR, ChatColor.WHITE + "Hide Enchant", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
+                    case DisableCrafting:
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.getDisableCrafting(internalName));
+                        itemStack = createNormalItem(Material.CRAFTING_TABLE, ChatColor.WHITE + "Disable crafting", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
+                    case DisableSmelting:
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.getDisableSmelting(internalName));
+                        itemStack = createNormalItem(Material.FURNACE, ChatColor.WHITE + "Disable smelting", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
+                    case DisableAnvil:
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.getDisableAnvil(internalName));
+                        itemStack = createNormalItem(Material.ANVIL, ChatColor.WHITE + "Disable anvil", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
+                    case DisableEnchant:
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.getDisableEnchant(internalName));
+                        itemStack = createNormalItem(Material.ENCHANTING_TABLE, ChatColor.WHITE + "Disable enchant", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
                 }
                 customFoodEditInv.setItem(slot, itemStack);
@@ -126,6 +164,8 @@ public class CustomFoodEditInv implements InventoryHolder {
             }
         }
     }
+
+    private final List<String> temp = new ArrayList<>();
 
     private List<String> getBasicLore() {
         List<String> temp = new ArrayList<>();

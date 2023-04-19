@@ -240,6 +240,18 @@ public class CustomFoodUtil {
             if (hasEnchant(internalName)) {
                 applyEnchantment(itemStack, internalName);
             }
+            if (getDisableCrafting(internalName)) {
+                addDisableTag(itemStack, CustomFoodEditEnum.DisableCrafting.name());
+            }
+            if (getDisableSmelting(internalName)) {
+                addDisableTag(itemStack, CustomFoodEditEnum.DisableSmelting.name());
+            }
+            if (getDisableAnvil(internalName)) {
+                addDisableTag(itemStack, CustomFoodEditEnum.DisableAnvil.name());
+            }
+            if (getDisableEnchant(internalName)) {
+                addDisableTag(itemStack, CustomFoodEditEnum.DisableEnchant.name());
+            }
         }
         return itemStack;
     }
@@ -367,6 +379,100 @@ public class CustomFoodUtil {
         boolean check = false;
         if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".HideEnchant")) {
             check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".HideEnchant");
+        }
+        return check;
+    }
+
+    public boolean getDisableCrafting(String internalName) {
+        boolean check = false;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".DisableCrafting")) {
+            check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".DisableCrafting");
+        }
+        return check;
+    }
+
+    public boolean getDisableSmelting(String internalName) {
+        boolean check = false;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".DisableSmelting")) {
+            check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".DisableSmelting");
+        }
+        return check;
+    }
+
+    public boolean getDisableAnvil(String internalName) {
+        boolean check = false;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".DisableAnvil")) {
+            check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".DisableAnvil");
+        }
+        return check;
+    }
+
+    public boolean getDisableEnchant(String internalName) {
+        boolean check = false;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".DisableEnchant")) {
+            check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".DisableEnchant");
+        }
+        return check;
+    }
+
+    public void addDisableTag(ItemStack itemStack, String dataKey) { //key= DisableCrafting, DisableSmelting, DisableAnvil, DisableEnchant
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+            String key = "ConsumeFood-" + dataKey;
+            data.set(new NamespacedKey(ConsumeFood.getPlugin(), key),PersistentDataType.STRING, String.valueOf(true));
+        }
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    public boolean hasDisableCraftingTag(ItemStack itemStack) {
+        boolean check = false;
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+            if (data.has(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableCrafting"),PersistentDataType.STRING)) {
+                String value = data.get(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableCrafting"), PersistentDataType.STRING);
+                check = Boolean.parseBoolean(value);
+            }
+        }
+        return check;
+    }
+
+    public boolean hasDisableSmeltingTag(ItemStack itemStack) {
+        boolean check = false;
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+            if (data.has(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableSmelting"),PersistentDataType.STRING)) {
+                String value = data.get(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableSmelting"), PersistentDataType.STRING);
+                check = Boolean.parseBoolean(value);
+            }
+        }
+        return check;
+    }
+
+    public boolean hasDisableAnvilTag(ItemStack itemStack) {
+        boolean check = false;
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+            if (data.has(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableAnvil"),PersistentDataType.STRING)) {
+                String value = data.get(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableAnvil"), PersistentDataType.STRING);
+                check = Boolean.parseBoolean(value);
+            }
+        }
+        return check;
+    }
+
+    public boolean hasDisableEnchantTag(ItemStack itemStack) {
+        boolean check = false;
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+            if (data.has(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableEnchant"),PersistentDataType.STRING)) {
+                String value = data.get(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-DisableEnchant"), PersistentDataType.STRING);
+                check = Boolean.parseBoolean(value);
+            }
         }
         return check;
     }
