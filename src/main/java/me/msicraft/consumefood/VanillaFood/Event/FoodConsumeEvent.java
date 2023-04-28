@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -147,7 +148,7 @@ public class FoodConsumeEvent implements Listener {
                 Player player = e.getPlayer();
                 String foodName = consumeItemStack.getType().name().toUpperCase();
                 if (!customFoodUtil.isCustomFood(consumeItemStack) && vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && player.getFoodLevel() >= 20) {
-                    if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    if (e.getAction() == Action.RIGHT_CLICK_AIR) {
                         VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
                         int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
                         float maxSaturation = playerHungerUtil.getMaxSaturation();
