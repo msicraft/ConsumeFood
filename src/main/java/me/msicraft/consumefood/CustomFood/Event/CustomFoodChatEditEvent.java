@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.List;
+import java.util.UUID;
 
 public class CustomFoodChatEditEvent implements Listener {
 
@@ -86,6 +87,16 @@ public class CustomFoodChatEditEvent implements Listener {
                     case Material:
                         try {
                             Material material = Material.valueOf(message.toUpperCase());
+                            if (material == Material.PLAYER_HEAD) {
+                                if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".UUID")) {
+                                    String uuidS = ConsumeFood.customFoodConfig.getConfig().getString("CustomFood." + internalName + ".UUID");
+                                    if (uuidS == null || uuidS.equals("")) {
+                                        ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + ".UUID", UUID.randomUUID().toString());
+                                    }
+                                } else {
+                                    ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + ".UUID", UUID.randomUUID().toString());
+                                }
+                            }
                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + customFoodEditEnum.name(), material.name());
                         } catch (IllegalArgumentException | NullPointerException ex) {
                             player.sendMessage(ChatColor.RED + "Invalid material: " + ChatColor.WHITE + message);
