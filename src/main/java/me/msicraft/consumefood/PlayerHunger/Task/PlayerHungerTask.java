@@ -28,8 +28,4 @@ public class PlayerHungerTask extends BukkitRunnable {
         }
     }
 
-    public void cancelTask() {
-        this.cancel();
-    }
-
 }

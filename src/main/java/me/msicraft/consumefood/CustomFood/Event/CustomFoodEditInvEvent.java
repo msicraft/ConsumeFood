@@ -383,6 +383,18 @@ public class CustomFoodEditInvEvent implements Listener {
                                             isUseEdit = false;
                                         }
                                         break;
+                                    case "Sound":
+                                        if (clickType == ClickType.LEFT) {
+                                            player.sendMessage(ChatColor.YELLOW + "========================================");
+                                            player.sendMessage(ChatColor.GRAY + " Please enter sound");
+                                            player.sendMessage(ChatColor.GRAY + " Format: <sound>:<volume>:<pitch>:<category>");
+                                            player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
+                                            player.sendMessage(ChatColor.YELLOW + "========================================");
+                                        } else {
+                                            isUseEdit = false;
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, "");
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                        }
                                 }
                                 if (isUseEdit) {
                                     player.closeInventory();

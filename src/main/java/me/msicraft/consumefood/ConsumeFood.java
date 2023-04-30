@@ -239,6 +239,12 @@ public final class ConsumeFood extends JavaPlugin {
         messageConfig.reloadConfig();
         customFoodUtil.playerHeadUUIDCheck();
         util.configDataCheck();
+        if (isQuestOrAchievementCompatibility) {
+            QuestOrAchievementEvent.reloadVariables();
+        } else {
+            FoodConsumeEvent.reloadVariables();
+        }
+        CustomFoodEvent.reloadVariables();
     }
 
     private void createConfigFiles() {

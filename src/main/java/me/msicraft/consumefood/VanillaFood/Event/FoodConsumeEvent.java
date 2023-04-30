@@ -35,6 +35,10 @@ public class FoodConsumeEvent implements Listener {
     public final HashMap<UUID, Long> vanillaFood_globalCooldownMap = new HashMap<>();
     public final HashMap<UUID, HashMap<String, Long>> vanillaFood_personalCooldownMap = new HashMap<>();
 
+    public static void reloadVariables() {
+        isEnabledMaxConsumable = ConsumeFood.getPlugin().getConfig().contains("Max-Consumable.Enabled") && ConsumeFood.getPlugin().getConfig().getBoolean("Max-Consumable.Enabled");
+    }
+
     @EventHandler
     public void onConsumeVanillaFood(PlayerItemConsumeEvent e) {
         ItemStack consumeItemStack = e.getItem();
@@ -139,10 +143,11 @@ public class FoodConsumeEvent implements Listener {
         }
     }
 
+    private static boolean isEnabledMaxConsumable = false;
+
     @EventHandler
     public void playerMaxConsumeVanillaFood(PlayerInteractEvent e) {
-        boolean isMaxConsumable = ConsumeFood.getPlugin().getConfig().getBoolean("Max-Consumable.Enabled");
-        if (isMaxConsumable) {
+        if (isEnabledMaxConsumable) {
             ItemStack consumeItemStack = e.getItem();
             if (consumeItemStack != null && consumeItemStack.getType() != Material.AIR) {
                 Player player = e.getPlayer();

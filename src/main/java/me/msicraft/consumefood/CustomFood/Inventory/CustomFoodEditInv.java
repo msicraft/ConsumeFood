@@ -158,6 +158,14 @@ public class CustomFoodEditInv implements InventoryHolder {
                         temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.getDisableEnchant(internalName));
                         itemStack = createNormalItem(Material.ENCHANTING_TABLE, ChatColor.WHITE + "Disable enchant", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
+                    case Sound:
+                        String sound = customFoodUtil.getSound(internalName);
+                        if (sound == null) {
+                            sound = "";
+                        }
+                        loreList.add(ChatColor.GRAY + "Current sound: " + sound);
+                        itemStack = createNormalItem(Material.JUKEBOX, ChatColor.WHITE + "Sound", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
                 }
                 customFoodEditInv.setItem(slot, itemStack);
                 count++;

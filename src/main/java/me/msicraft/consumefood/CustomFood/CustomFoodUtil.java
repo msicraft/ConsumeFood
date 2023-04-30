@@ -6,10 +6,7 @@ import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -415,6 +412,14 @@ public class CustomFoodUtil {
         return check;
     }
 
+    public String getSound(String internalName) {
+        String sound = null;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".Sound")) {
+            sound = ConsumeFood.customFoodConfig.getConfig().getString("CustomFood." + internalName + ".Sound");
+        }
+        return sound;
+    }
+
     public void addDisableTag(ItemStack itemStack, String dataKey) { //key= DisableCrafting, DisableSmelting, DisableAnvil, DisableEnchant
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
@@ -512,6 +517,20 @@ public class CustomFoodUtil {
                     player.getInventory().addItem(putItemStack);
                 }
             }
+        }
+        String sound = getSound(internalName);
+        if (sound != null) {
+            String[] s = sound.split(":");
+            String soundName = s[0];
+            float volume = Float.parseFloat(s[1]);
+            float pitch = Float.parseFloat(s[2]);
+            SoundCategory soundCategory = SoundCategory.MASTER;
+            try {
+                soundCategory = SoundCategory.valueOf(s[3].toUpperCase());
+            } catch (IllegalArgumentException | NullPointerException e) {
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + " wrong sound category: " + ChatColor.WHITE + internalName);
+            }
+            player.playSound(player.getLocation(), soundName, soundCategory, volume, pitch);
         }
     }
 

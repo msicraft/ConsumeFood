@@ -30,6 +30,10 @@ public class CustomFoodEvent implements Listener {
     public final HashMap<UUID, Long> customFood_globalCooldownMap = new HashMap<>();
     public final HashMap<UUID, HashMap<String, Long>> customFood_personalCooldownMap = new HashMap<>();
 
+    public static void reloadVariables() {
+        isEnabledMaxConsumable = ConsumeFood.customFoodConfig.getConfig().contains("CustomFood-Max-Consumable.Enabled") && ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood-Max-Consumable.Enabled");
+    }
+
     @EventHandler
     public void onCustomFoodConsume(PlayerItemConsumeEvent e) {
         ItemStack consumeItemStack = e.getItem();
@@ -135,9 +139,10 @@ public class CustomFoodEvent implements Listener {
         }
     }
 
+    private static boolean isEnabledMaxConsumable = false;
+
     @EventHandler
     public void playerMaxConsumeCustomFood(PlayerInteractEvent e) {
-        boolean isMaxConsumable = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood-Max-Consumable.Enabled");
         ItemStack consumeItemStack = e.getItem();
         if (consumeItemStack != null && consumeItemStack.getType() != Material.AIR && customFoodUtil.isCustomFood(consumeItemStack)) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -162,7 +167,7 @@ public class CustomFoodEvent implements Listener {
                     }
                     EquipmentSlot slot = customFoodUtil.getUseHand(player, consumeItemStack);
                     long time = System.currentTimeMillis();
-                    if (isMaxConsumable) {
+                    if (isEnabledMaxConsumable) {
                         if (player.getFoodLevel() >= 20) { //foodlevel >= 20
                             switch (cdType) {
                                 case "disable":
