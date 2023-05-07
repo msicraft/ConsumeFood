@@ -14,9 +14,6 @@ import java.util.*;
 
 public class FoodDietUtil {
 
-    private final CustomFoodUtil customFoodUtil = new CustomFoodUtil();
-    private final VanillaFoodUtil vanillaFoodUtil = new VanillaFoodUtil();
-
     private static Map<UUID, Map<String, Integer>> foodDietMap = null; //uuid, map<food, count>
 
     public static void removeMap(Player player) { foodDietMap.remove(player.getUniqueId()); }
