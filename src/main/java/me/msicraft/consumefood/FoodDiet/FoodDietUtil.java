@@ -1,11 +1,8 @@
 package me.msicraft.consumefood.FoodDiet;
 
 import me.msicraft.consumefood.ConsumeFood;
-import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
-import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -108,6 +105,24 @@ public class FoodDietUtil {
                 }
             }
         }
+    }
+
+    public int getPenaltyFoodLevel(int penaltyCount, int foodlevel) {
+        double percent = getFoodLevelPercent(penaltyCount);
+        int v = (int) (foodlevel - (Math.round(foodlevel * percent)));
+        if (v < 0) {
+            v = 0;
+        }
+        return v;
+    }
+
+    public float getPenaltySaturation(int penaltyCount, float saturation) {
+        double percent = getSaturationPercent(penaltyCount);
+        float v = (saturation - (Math.round(saturation * percent)));
+        if (v < 0) {
+            v = 0;
+        }
+        return v;
     }
 
     public double getFoodLevelPercent(int penaltyCount) {

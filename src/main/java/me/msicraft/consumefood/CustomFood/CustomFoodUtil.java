@@ -491,14 +491,14 @@ public class CustomFoodUtil {
                 int count = foodDietUtil.getPenaltyCount(player, internalName);
                 foodDietUtil.addPenaltyCount(player, internalName, 1);
                 foodDietUtil.reduceOtherPenaltyCount(player, internalName);
-                foodlevel = (int) Math.round(foodlevel * foodDietUtil.getFoodLevelPercent(count));
-                saturation = Math.round(saturation * foodDietUtil.getSaturationPercent(count));
+                foodlevel = foodDietUtil.getPenaltyFoodLevel(count, foodlevel);
+                saturation = foodDietUtil.getPenaltySaturation(count, saturation);
                 foodDietUtil.applyPenaltyPotionEffect(player, count);
             } else {
                 foodDietUtil.addPenaltyCount(player, internalName, 0);
                 foodDietUtil.reduceOtherPenaltyCount(player, internalName);
-                foodlevel = (int) Math.round(foodlevel * foodDietUtil.getFoodLevelPercent(0));
-                saturation = Math.round(saturation * foodDietUtil.getSaturationPercent(0));
+                foodlevel = foodDietUtil.getPenaltyFoodLevel(0, foodlevel);
+                saturation = foodDietUtil.getPenaltySaturation(0, saturation);
                 foodDietUtil.applyPenaltyPotionEffect(player, 0);
             }
         }

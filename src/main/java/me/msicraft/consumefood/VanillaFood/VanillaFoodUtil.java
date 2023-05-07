@@ -185,14 +185,14 @@ public class VanillaFoodUtil {
                 int count = foodDietUtil.getPenaltyCount(player, vanillaFoodEnum.name());
                 foodDietUtil.addPenaltyCount(player, vanillaFoodEnum.name(), 1);
                 foodDietUtil.reduceOtherPenaltyCount(player, vanillaFoodEnum.name());
-                foodLevel = (int) Math.round(foodLevel * foodDietUtil.getFoodLevelPercent(count));
-                saturation = Math.round(saturation * foodDietUtil.getSaturationPercent(count));
+                foodLevel = foodDietUtil.getPenaltyFoodLevel(count, foodLevel);
+                saturation = foodDietUtil.getPenaltySaturation(count, saturation);
                 foodDietUtil.applyPenaltyPotionEffect(player, count);
             } else {
                 foodDietUtil.addPenaltyCount(player, vanillaFoodEnum.name(), 0);
                 foodDietUtil.reduceOtherPenaltyCount(player, vanillaFoodEnum.name());
-                foodLevel = (int) Math.round(foodLevel * foodDietUtil.getFoodLevelPercent(0));
-                saturation = Math.round(saturation * foodDietUtil.getSaturationPercent(0));
+                foodLevel = foodDietUtil.getPenaltyFoodLevel(0, foodLevel);
+                saturation = foodDietUtil.getPenaltySaturation(0, saturation);
                 foodDietUtil.applyPenaltyPotionEffect(player, 0);
             }
         }

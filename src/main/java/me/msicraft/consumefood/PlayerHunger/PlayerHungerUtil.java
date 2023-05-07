@@ -92,9 +92,9 @@ public class PlayerHungerUtil {
         if (FoodDietUtil.isEnabled) {
             if (foodDietUtil.containFoodInDietMap(player, food)) {
                 int count = foodDietUtil.getPenaltyCount(player, food);
-                amount = (int) Math.round(amount * foodDietUtil.getFoodLevelPercent(count));
+                amount = foodDietUtil.getPenaltyFoodLevel(count, amount);
             } else {
-                amount = (int) Math.round(amount * foodDietUtil.getFoodLevelPercent(0));
+                amount = foodDietUtil.getPenaltyFoodLevel(0, amount);
             }
         }
         int value = getMapCustomFoodLevel(player) + amount;
