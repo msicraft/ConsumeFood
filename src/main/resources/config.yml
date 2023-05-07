@@ -5,6 +5,40 @@ Compatibility:
   PlaceholderAPI: true
   Quest-or-Achievement: false
 
+# Food diet
+# Including custom food
+FoodDiet:
+  Enabled: false
+  RecoveryPenaltyCount: 1 # Amount of penalty to be reduced when eating different types of food
+  MaxPenaltyCount: 5
+  Penalty:
+    0: # first time eating
+      FoodLevel: 0 #reduce percent
+      Saturation: 0 #reduce percent
+    1:
+      FoodLevel: 0
+      Saturation: 0.5
+    2:
+      FoodLevel: 0.5
+      Saturation: 0.5
+    3:
+      FoodLevel: 0.5
+      Saturation: 0.5
+      PotionEffect:
+        - poison:1:5:0.5
+        #- <potioneffect>:<level>:<duration>:<chance>
+    4:
+      FoodLevel: 0.75
+      Saturation: 0.75
+      PotionEffect:
+        - poison:1:5:0.75
+    5:
+      FoodLevel: 1
+      Saturation: 1
+      PotionEffect:
+        - poison:1:5:1
+        - wither:1:5:1
+
 # Changing this doesn't change the hunger bar.
 # If 'Enabled-CustomFoodLevel' is true, can change the player's max foodlevel.
 # Available placeholder = [ %consumefood_foodlevel%, %consumefood_max_foodlevel% ]

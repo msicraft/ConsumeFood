@@ -2,6 +2,7 @@ package me.msicraft.consumefood.PlayerHunger;
 
 import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.ConsumeFood;
+import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -85,7 +86,17 @@ public class PlayerHungerUtil {
         return level;
     }
 
-    public void addCustomFoodLevel(Player player, int amount) {
+    private final FoodDietUtil foodDietUtil = new FoodDietUtil();
+
+    public void addCustomFoodLevel(Player player, int amount, String food) {
+        if (FoodDietUtil.isEnabled) {
+            if (foodDietUtil.containFoodInDietMap(player, food)) {
+                int count = foodDietUtil.getPenaltyCount(player, food);
+                amount = (int) Math.round(amount * foodDietUtil.getFoodLevelPercent(count));
+            } else {
+                amount = (int) Math.round(amount * foodDietUtil.getFoodLevelPercent(0));
+            }
+        }
         int value = getMapCustomFoodLevel(player) + amount;
         if (value < 0) {
             value = 0;

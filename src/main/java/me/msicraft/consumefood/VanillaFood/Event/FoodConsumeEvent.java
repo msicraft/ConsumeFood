@@ -118,7 +118,7 @@ public class FoodConsumeEvent implements Listener {
                     Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
             }
-            playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+            playerHungerUtil.addCustomFoodLevel(player, foodLevel, vanillaFoodEnum.name());
             playerHungerUtil.syncPlayerHunger(player);
             if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                 String reachMessage = util.getReachMaxFoodLevel();
@@ -230,7 +230,7 @@ public class FoodConsumeEvent implements Listener {
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
                         }
-                        playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+                        playerHungerUtil.addCustomFoodLevel(player, foodLevel, vanillaFoodEnum.name());
                         playerHungerUtil.syncPlayerHunger(player);
                         if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                             String reachMessage = util.getReachMaxFoodLevel();

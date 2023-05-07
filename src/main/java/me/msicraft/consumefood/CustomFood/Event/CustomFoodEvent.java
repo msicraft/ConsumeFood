@@ -113,7 +113,7 @@ public class CustomFoodEvent implements Listener {
                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                         break;
                 }
-                playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+                playerHungerUtil.addCustomFoodLevel(player, foodLevel, internalName);
                 playerHungerUtil.syncPlayerHunger(player);
                 if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                     String reachMessage = util.getReachMaxFoodLevel();
@@ -223,7 +223,7 @@ public class CustomFoodEvent implements Listener {
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                             }
-                            playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+                            playerHungerUtil.addCustomFoodLevel(player, foodLevel, internalName);
                             playerHungerUtil.syncPlayerHunger(player);
                             if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                                 String reachMessage = util.getReachMaxFoodLevel();
@@ -301,7 +301,7 @@ public class CustomFoodEvent implements Listener {
                                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                         break;
                                 }
-                                playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+                                playerHungerUtil.addCustomFoodLevel(player, foodLevel, internalName);
                                 playerHungerUtil.syncPlayerHunger(player);
                                 if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                                     String reachMessage = util.getReachMaxFoodLevel();
@@ -381,7 +381,7 @@ public class CustomFoodEvent implements Listener {
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                             }
-                            playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+                            playerHungerUtil.addCustomFoodLevel(player, foodLevel, internalName);
                             playerHungerUtil.syncPlayerHunger(player);
                             if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                                 String reachMessage = util.getReachMaxFoodLevel();

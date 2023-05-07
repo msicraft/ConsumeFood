@@ -201,7 +201,7 @@ public class QuestOrAchievementEvent implements Listener {
                             cal = maxFoodLevel;
                         }
                         e.setFoodLevel(cal);
-                        playerHungerUtil.addCustomFoodLevel(player, getFoodLevel);
+                        playerHungerUtil.addCustomFoodLevel(player, getFoodLevel, vanillaFoodEnum.name());
                         playerHungerUtil.syncPlayerHunger(player);
                         float calSaturation = vanillaFoodUtil.getSaturation(vanillaFoodEnum) + player.getSaturation();
                         if (calSaturation < 0) {
@@ -312,7 +312,7 @@ public class QuestOrAchievementEvent implements Listener {
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
                         }
-                        playerHungerUtil.addCustomFoodLevel(player, foodLevel);
+                        playerHungerUtil.addCustomFoodLevel(player, foodLevel, vanillaFoodEnum.name());
                         playerHungerUtil.syncPlayerHunger(player);
                         if (player.getFoodLevel() >= playerHungerUtil.getMaxFoodLevel()) {
                             String reachMessage = util.getReachMaxFoodLevel();

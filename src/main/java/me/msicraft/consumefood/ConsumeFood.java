@@ -13,6 +13,7 @@ import me.msicraft.consumefood.Event.JoinQuitEvent;
 import me.msicraft.consumefood.File.CustomFoodConfig;
 import me.msicraft.consumefood.File.MessageConfig;
 import me.msicraft.consumefood.File.PlayerData;
+import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
 import me.msicraft.consumefood.PlayerHunger.Event.PlayerHungerEvent;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import me.msicraft.consumefood.PlayerHunger.Task.PlayerHungerTask;
@@ -245,6 +246,7 @@ public final class ConsumeFood extends JavaPlugin {
             FoodConsumeEvent.reloadVariables();
         }
         CustomFoodEvent.reloadVariables();
+        FoodDietUtil.reloadVariables();
     }
 
     private void createConfigFiles() {

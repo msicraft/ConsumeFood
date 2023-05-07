@@ -2,6 +2,7 @@ package me.msicraft.consumefood.Event;
 
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
+import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import me.msicraft.consumefood.PlayerHunger.Task.PlayerHungerTask;
 import org.bukkit.entity.Player;
@@ -57,6 +58,7 @@ public class JoinQuitEvent implements Listener {
         ConsumeFood.editingCustomFood.remove(player.getUniqueId());
         playerHungerUtil.saveCustomFoodLevel(player);
         ConsumeFood.customFoodLevel.remove(player.getUniqueId());
+        FoodDietUtil.removeMap(player);
     }
 
 }
