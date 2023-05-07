@@ -7,6 +7,7 @@ import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.CustomFood.CustomItemUtil;
 import me.msicraft.consumefood.CustomFood.Inventory.CustomFoodEditInv;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
+import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,6 +19,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class MainCommand implements CommandExecutor {
 

@@ -11,7 +11,7 @@ import java.util.*;
 
 public class FoodDietUtil {
 
-    private static Map<UUID, Map<String, Integer>> foodDietMap = null; //uuid, map<food, count>
+    public static final Map<UUID, Map<String, Integer>> foodDietMap = new HashMap<>(); //uuid, map<food, count>
 
     public static void removeMap(Player player) { foodDietMap.remove(player.getUniqueId()); }
 
@@ -23,9 +23,6 @@ public class FoodDietUtil {
         isEnabled = ConsumeFood.getPlugin().getConfig().contains("FoodDiet.Enabled") && ConsumeFood.getPlugin().getConfig().getBoolean("FoodDiet.Enabled");
         maxPenaltyCount = ConsumeFood.getPlugin().getConfig().contains("FoodDiet.MaxPenaltyCount") ? ConsumeFood.getPlugin().getConfig().getInt("FoodDiet.MaxPenaltyCount") : 0;
         recoveryPenaltyCount = ConsumeFood.getPlugin().getConfig().contains("FoodDiet.RecoveryPenaltyCount") ? ConsumeFood.getPlugin().getConfig().getInt("FoodDiet.RecoveryPenaltyCount") : 1;
-        if (isEnabled) {
-            foodDietMap = new HashMap<>();
-        }
     }
 
     public boolean containFoodInDietMap(Player player, String food) {
@@ -65,6 +62,7 @@ public class FoodDietUtil {
             cal = maxPenaltyCount;
         }
         map.put(food, cal);
+        foodDietMap.put(player.getUniqueId(), map);
     }
 
     public void reduceOtherPenaltyCount(Player player, String exceptFood) {
@@ -79,6 +77,7 @@ public class FoodDietUtil {
                     v = maxPenaltyCount;
                 }
                 map.put(s, v);
+                foodDietMap.put(player.getUniqueId(), map);
             }
         }
     }
@@ -113,6 +112,7 @@ public class FoodDietUtil {
         if (v < 0) {
             v = 0;
         }
+        Bukkit.getConsoleSender().sendMessage("감소됨: " + penaltyCount + " | " + foodlevel + " | " + percent + " | " + v);
         return v;
     }
 
@@ -128,7 +128,7 @@ public class FoodDietUtil {
     public double getFoodLevelPercent(int penaltyCount) {
         double v = 0;
         if (ConsumeFood.getPlugin().getConfig().contains("FoodDiet.Penalty." + penaltyCount + ".FoodLevel")) {
-            v = ConsumeFood.getPlugin().getConfig().getInt("FoodDiet.Penalty." + penaltyCount + ".FoodLevel");
+            v = ConsumeFood.getPlugin().getConfig().getDouble("FoodDiet.Penalty." + penaltyCount + ".FoodLevel");
         }
         return v;
     }
@@ -136,7 +136,7 @@ public class FoodDietUtil {
     public double getSaturationPercent(int penaltyCount) {
         double v = 0;
         if (ConsumeFood.getPlugin().getConfig().contains("FoodDiet.Penalty." + penaltyCount + ".Saturation")) {
-            v = ConsumeFood.getPlugin().getConfig().getInt("FoodDiet.Penalty." + penaltyCount + ".Saturation");
+            v = ConsumeFood.getPlugin().getConfig().getDouble("FoodDiet.Penalty." + penaltyCount + ".Saturation");
         }
         return v;
     }

@@ -1,6 +1,5 @@
 package me.msicraft.consumefood.PlayerHunger;
 
-import me.msicraft.consumefood.API.Util.Util;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
 import org.bukkit.entity.Player;
@@ -116,8 +115,6 @@ public class PlayerHungerUtil {
         }
         ConsumeFood.customFoodLevel.put(player.getUniqueId(), amount);
     }
-
-    private final Util util = new Util();
 
     public void syncPlayerHunger(Player player) {
         if (isEnabledSync() && isEnabled()) {

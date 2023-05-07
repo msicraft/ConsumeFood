@@ -7,6 +7,7 @@ import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
 import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
+import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -484,6 +485,7 @@ public class CustomFoodUtil {
     }
 
     private final FoodDietUtil foodDietUtil = new FoodDietUtil();
+    private final PlayerHungerUtil playerHungerUtil = new PlayerHungerUtil();
 
     public void applyConsumeCustomFood(Player player, int foodlevel, float saturation, String internalName, EquipmentSlot slot, ItemStack itemStack) {
         if (FoodDietUtil.isEnabled) {
@@ -502,8 +504,17 @@ public class CustomFoodUtil {
                 foodDietUtil.applyPenaltyPotionEffect(player, 0);
             }
         }
-        player.setFoodLevel(foodlevel);
-        player.setSaturation(saturation);
+        int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
+        int calFoodLevel = player.getFoodLevel() + foodlevel;
+        if (calFoodLevel > maxFoodLevel) {
+            calFoodLevel = maxFoodLevel;
+        }
+        float calSaturation = player.getSaturation() + saturation;
+        if (calSaturation > playerHungerUtil.getMaxSaturation()) {
+            calSaturation = playerHungerUtil.getMaxSaturation();
+        }
+        player.setFoodLevel(calFoodLevel);
+        player.setSaturation(calSaturation);
         if (hasPotionEffect(internalName)) {
             applyPotionEffect(player, internalName);
         }

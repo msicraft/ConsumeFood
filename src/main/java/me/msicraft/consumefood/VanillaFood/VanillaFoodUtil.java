@@ -5,6 +5,7 @@ import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.Enum.VanillaFoodEnum;
 import me.msicraft.consumefood.FoodDiet.FoodDietUtil;
+import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -178,6 +179,7 @@ public class VanillaFoodUtil {
     }
 
     private final FoodDietUtil foodDietUtil = new FoodDietUtil();
+    private final PlayerHungerUtil playerHungerUtil = new PlayerHungerUtil();
 
     public void applyConsumeFood(Player player, int foodLevel, float saturation, VanillaFoodEnum vanillaFoodEnum, EquipmentSlot slot, ItemStack itemStack) {
         if (FoodDietUtil.isEnabled) {
@@ -196,8 +198,17 @@ public class VanillaFoodUtil {
                 foodDietUtil.applyPenaltyPotionEffect(player, 0);
             }
         }
-        player.setFoodLevel(foodLevel);
-        player.setSaturation(saturation);
+        int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
+        int calFoodLevel = player.getFoodLevel() + foodLevel;
+        if (calFoodLevel > maxFoodLevel) {
+            calFoodLevel = maxFoodLevel;
+        }
+        float calSaturation = player.getSaturation() + saturation;
+        if (calSaturation > playerHungerUtil.getMaxSaturation()) {
+            calSaturation = playerHungerUtil.getMaxSaturation();
+        }
+        player.setFoodLevel(calFoodLevel);
+        player.setSaturation(calSaturation);
         if (hasPotionEffect(vanillaFoodEnum)) {
             applyPotionEffect(player, vanillaFoodEnum);
         }

@@ -45,17 +45,8 @@ public class FoodConsumeEvent implements Listener {
         if (vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && !customFoodUtil.isCustomFood(consumeItemStack)) {
             VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
             Player player = e.getPlayer();
-            int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
             int foodLevel = vanillaFoodUtil.getFoodLevel(vanillaFoodEnum);
             float saturation = vanillaFoodUtil.getSaturation(vanillaFoodEnum);
-            int calFoodLevel = player.getFoodLevel() + foodLevel;
-            if (calFoodLevel > maxFoodLevel) {
-                calFoodLevel = maxFoodLevel;
-            }
-            float calSaturation = player.getSaturation() + saturation;
-            if (calSaturation > playerHungerUtil.getMaxSaturation()) {
-                calSaturation = playerHungerUtil.getMaxSaturation();
-            }
             String cdType = ConsumeFood.getPlugin().getConfig().getString("Cooldown-Setting.Type");;
             if (cdType == null) {
                 cdType = "disable";
@@ -65,7 +56,7 @@ public class FoodConsumeEvent implements Listener {
             long time = System.currentTimeMillis();
             switch (cdType) {
                 case "disable":
-                    vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
+                    vanillaFoodUtil.applyConsumeFood(player, foodLevel, saturation, vanillaFoodEnum, slot, consumeItemStack);
                     Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
                 case "global":
@@ -86,7 +77,7 @@ public class FoodConsumeEvent implements Listener {
                         }
                     }
                     vanillaFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                    vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
+                    vanillaFoodUtil.applyConsumeFood(player, foodLevel, saturation, vanillaFoodEnum, slot, consumeItemStack);
                     Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
                 case "personal":
@@ -113,7 +104,7 @@ public class FoodConsumeEvent implements Listener {
                     long cd = (long) (time + (personalCooldown * 1000));
                     temp.put(key, cd);
                     vanillaFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                    vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
+                    vanillaFoodUtil.applyConsumeFood(player, foodLevel, saturation, vanillaFoodEnum, slot, consumeItemStack);
                     Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                     break;
             }
@@ -154,18 +145,9 @@ public class FoodConsumeEvent implements Listener {
                 if (!customFoodUtil.isCustomFood(consumeItemStack) && vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && player.getFoodLevel() >= 20) {
                     if (e.getAction() == Action.RIGHT_CLICK_AIR) {
                         VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
-                        int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
                         float maxSaturation = playerHungerUtil.getMaxSaturation();
                         int foodLevel = vanillaFoodUtil.getFoodLevel(vanillaFoodEnum);
                         float saturation = vanillaFoodUtil.getSaturation(vanillaFoodEnum);
-                        int calFoodLevel = player.getFoodLevel() + foodLevel;
-                        if (calFoodLevel > maxFoodLevel) {
-                            calFoodLevel = maxFoodLevel;
-                        }
-                        float calSaturation = player.getSaturation() + saturation;
-                        if (calSaturation > maxSaturation) {
-                            calSaturation = maxSaturation;
-                        }
                         String cdType = ConsumeFood.getPlugin().getConfig().getString("Cooldown-Setting.Type");;
                         if (cdType == null) {
                             cdType = "disable";
@@ -175,7 +157,7 @@ public class FoodConsumeEvent implements Listener {
                         long time = System.currentTimeMillis();
                         switch (cdType) {
                             case "disable":
-                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
+                                vanillaFoodUtil.applyConsumeFood(player, foodLevel, saturation, vanillaFoodEnum, slot, consumeItemStack);
                                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
@@ -197,7 +179,7 @@ public class FoodConsumeEvent implements Listener {
                                     }
                                 }
                                 vanillaFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
+                                vanillaFoodUtil.applyConsumeFood(player, foodLevel, saturation, vanillaFoodEnum, slot, consumeItemStack);
                                 player.playSound(player.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
@@ -225,7 +207,7 @@ public class FoodConsumeEvent implements Listener {
                                 long cd = (long) (time + (personalCooldown * 1000));
                                 temp.put(key, cd);
                                 vanillaFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                                vanillaFoodUtil.applyConsumeFood(player, calFoodLevel, calSaturation, vanillaFoodEnum, slot, consumeItemStack);
+                                vanillaFoodUtil.applyConsumeFood(player, foodLevel, saturation, vanillaFoodEnum, slot, consumeItemStack);
                                 Bukkit.getPluginManager().callEvent(new VanillaFoodConsumeEvent(player, consumeItemStack, vanillaFoodEnum, foodLevel, saturation, slot, cdType, true));
                                 break;
                         }

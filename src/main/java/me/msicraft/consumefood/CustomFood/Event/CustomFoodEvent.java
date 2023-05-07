@@ -41,17 +41,8 @@ public class CustomFoodEvent implements Listener {
             String internalName = customFoodUtil.getInternalName(consumeItemStack);
             if (internalName != null) {
                 Player player = e.getPlayer();
-                int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
                 int foodLevel = customFoodUtil.getFoodLevel(internalName);
                 float saturation = customFoodUtil.getSaturation(internalName);
-                int calFoodLevel = player.getFoodLevel() + foodLevel;
-                if (calFoodLevel > maxFoodLevel) {
-                    calFoodLevel = maxFoodLevel;
-                }
-                float calSaturation = player.getSaturation() + saturation;
-                if (calSaturation > playerHungerUtil.getMaxSaturation()) {
-                    calSaturation = playerHungerUtil.getMaxSaturation();
-                }
                 String cdType = ConsumeFood.customFoodConfig.getConfig().getString("CustomFood-Cooldown-Setting.Type");
                 if (cdType == null) {
                     cdType = "disable";
@@ -61,7 +52,7 @@ public class CustomFoodEvent implements Listener {
                 long time = System.currentTimeMillis();
                 switch (cdType) {
                     case "disable":
-                        customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                        customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                         break;
                     case "global":
@@ -82,7 +73,7 @@ public class CustomFoodEvent implements Listener {
                             }
                         }
                         customFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                        customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                        customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                         break;
                     case "personal":
@@ -109,7 +100,7 @@ public class CustomFoodEvent implements Listener {
                         long cd = (long) (time + (personalCooldown * 1000));
                         temp.put(key, cd);
                         customFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                        customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                        customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                         break;
                 }
@@ -149,18 +140,8 @@ public class CustomFoodEvent implements Listener {
                 Player player = e.getPlayer();
                 String internalName = customFoodUtil.getInternalName(consumeItemStack);
                 if (internalName != null) {
-                    int maxFoodLevel = playerHungerUtil.getMaxFoodLevel();
-                    float maxSaturation = playerHungerUtil.getMaxSaturation();
                     int foodLevel = customFoodUtil.getFoodLevel(internalName);
                     float saturation = customFoodUtil.getSaturation(internalName);
-                    int calFoodLevel = player.getFoodLevel() + foodLevel;
-                    if (calFoodLevel > maxFoodLevel) {
-                        calFoodLevel = maxFoodLevel;
-                    }
-                    float calSaturation = player.getSaturation() + saturation;
-                    if (calSaturation > maxSaturation) {
-                        calSaturation = maxSaturation;
-                    }
                     String cdType = ConsumeFood.customFoodConfig.getConfig().getString("CustomFood-Cooldown-Setting.Type");
                     if (cdType == null) {
                         cdType = "disable";
@@ -171,7 +152,7 @@ public class CustomFoodEvent implements Listener {
                         if (player.getFoodLevel() >= 20) { //foodlevel >= 20
                             switch (cdType) {
                                 case "disable":
-                                    customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                    customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                                 case "global":
@@ -192,7 +173,7 @@ public class CustomFoodEvent implements Listener {
                                         }
                                     }
                                     customFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                                    customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                    customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                                 case "personal":
@@ -219,7 +200,7 @@ public class CustomFoodEvent implements Listener {
                                     long cd = (long) (time + (personalCooldown * 1000));
                                     temp.put(key, cd);
                                     customFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                                    customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                    customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                             }
@@ -249,8 +230,8 @@ public class CustomFoodEvent implements Listener {
                             if (!consumeItemStack.getType().isEdible()) {
                                 switch (cdType) {
                                     case "disable":
-                                        customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
-                                        Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, calFoodLevel, calSaturation, slot, cdType, consumeItemStack, true));
+                                        customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
+                                        Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                         break;
                                     case "global":
                                         long globalCooldown = ConsumeFood.customFoodConfig.getConfig().getLong("CustomFood-Cooldown-Setting.Global_Cooldown");
@@ -270,7 +251,7 @@ public class CustomFoodEvent implements Listener {
                                             }
                                         }
                                         customFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                                        customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                        customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                         break;
                                     case "personal":
@@ -297,7 +278,7 @@ public class CustomFoodEvent implements Listener {
                                         long cd = (long) (time + (personalCooldown * 1000));
                                         temp.put(key, cd);
                                         customFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                                        customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                        customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                         Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                         break;
                                 }
@@ -329,7 +310,7 @@ public class CustomFoodEvent implements Listener {
                         if (player.getFoodLevel() < 20 && !consumeItemStack.getType().isEdible()) {
                             switch (cdType) {
                                 case "disable":
-                                    customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                    customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                                 case "global":
@@ -350,7 +331,7 @@ public class CustomFoodEvent implements Listener {
                                         }
                                     }
                                     customFood_globalCooldownMap.put(player.getUniqueId(), time + (globalCooldown * 1000));
-                                    customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                    customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                                 case "personal":
@@ -377,7 +358,7 @@ public class CustomFoodEvent implements Listener {
                                     long cd = (long) (time + (personalCooldown * 1000));
                                     temp.put(key, cd);
                                     customFood_personalCooldownMap.put(player.getUniqueId(), temp);
-                                    customFoodUtil.applyConsumeCustomFood(player, calFoodLevel, calSaturation, internalName, slot, consumeItemStack);
+                                    customFoodUtil.applyConsumeCustomFood(player, foodLevel, saturation, internalName, slot, consumeItemStack);
                                     Bukkit.getPluginManager().callEvent(new CustomFoodConsumeEvent(player, foodLevel, saturation, slot, cdType, consumeItemStack, true));
                                     break;
                             }
