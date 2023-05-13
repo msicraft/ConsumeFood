@@ -112,7 +112,6 @@ public class FoodDietUtil {
         if (v < 0) {
             v = 0;
         }
-        Bukkit.getConsoleSender().sendMessage("감소됨: " + penaltyCount + " | " + foodlevel + " | " + percent + " | " + v);
         return v;
     }
 

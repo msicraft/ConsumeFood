@@ -26,7 +26,15 @@ public class MainTabComplete implements TabCompleter {
                 arguments.add("saturation");
                 arguments.add("import");
                 arguments.add("updateitem");
+                arguments.add("penalty");
                 return arguments;
+            }
+            if (args.length == 2) {
+                if (args[0].equals("penalty")) {
+                    List<String> arguments = new ArrayList<>();
+                    arguments.add("get");
+                    return arguments;
+                }
             }
             if (args.length == 3) {
                 if (args[0].equals("get")) {

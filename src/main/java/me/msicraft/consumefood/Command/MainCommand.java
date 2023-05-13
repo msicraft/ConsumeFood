@@ -105,6 +105,35 @@ public class MainCommand implements CommandExecutor {
                             }
                             break;
                     }
+                    if (var.equals("penalty")) { //consume penalty get <player>
+                        if (!sender.hasPermission("consumefood.command.penalty")) {
+                            sendPermissionMessage(sender);
+                            return false;
+                        }
+                        Player target = null;
+                        String s = null;
+                        try {
+                            s = args[1];
+                            target = Bukkit.getPlayer(args[2]);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            sender.sendMessage(ChatColor.RED + "/consumefood penalty get <player>");
+                        }
+                        if (target != null && s != null) {
+                            switch (s) {
+                                case "get":
+                                    if (FoodDietUtil.foodDietMap.containsKey(target.getUniqueId())) {
+                                        Map<String, Integer> map = FoodDietUtil.foodDietMap.get(target.getUniqueId());
+                                        for (String a : map.keySet()) {
+                                            sender.sendMessage(ChatColor.GREEN + "Food name: " + ChatColor.GRAY + a);
+                                            sender.sendMessage(ChatColor.GREEN + "Penalty count: " + ChatColor.GRAY + map.get(a));
+                                        }
+                                    } else {
+                                    sender.sendMessage(ChatColor.RED + "There is no penalty to the player's food diet");
+                                    }
+                                    break;
+                            }
+                        }
+                    }
                     if (var.equals("updateitem")) { //consume updateitem <[optional]player, all>
                         if (!sender.hasPermission("consumefood.command.updateitem")) {
                             sendPermissionMessage(sender);
