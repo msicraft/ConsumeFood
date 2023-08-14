@@ -334,20 +334,24 @@ public class CustomFoodUtil {
                 }
                 String commands = commandList.get(count);
                 String[] a = commands.split(":");
-                String sender = a[0].toLowerCase();
-                String command = a[1];
-                String replace_command;
-                if (ConsumeFood.canUsePlaceHolderApi) {
-                    replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
-                } else {
-                    replace_command = command;
+                try {
+                    String sender = a[0].toLowerCase();
+                    String command = a[1];
+                    String replace_command;
+                    if (ConsumeFood.canUsePlaceHolderApi) {
+                        replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
+                    } else {
+                        replace_command = command;
+                    }
+                    if (sender.equalsIgnoreCase("console")) {
+                        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), replace_command);
+                    } else if (sender.equalsIgnoreCase("player")) {
+                        Bukkit.getServer().dispatchCommand(player, replace_command);
+                    }
+                    count++;
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    cancel();
                 }
-                if (sender.equalsIgnoreCase("console")) {
-                    Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), replace_command);
-                } else if (sender.equalsIgnoreCase("player")) {
-                    Bukkit.getServer().dispatchCommand(player, replace_command);
-                }
-                count++;
             }
         }.runTaskTimer(ConsumeFood.getPlugin(), 0, 1);
     }

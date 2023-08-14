@@ -110,7 +110,7 @@ public class Util {
     }
 
     private static final ArrayList<Material> bowlMaterials = new ArrayList<>(Arrays.asList(Material.BEETROOT_SOUP, Material.MUSHROOM_STEW, Material.RABBIT_STEW));
-    private static final ArrayList<Material> bottleMaterials = new ArrayList<>(Arrays.asList(Material.HONEY_BOTTLE));
+    private static final ArrayList<Material> bottleMaterials = new ArrayList<>(Arrays.asList(Material.HONEY_BOTTLE, Material.POTION));
 
     public enum putInType {
         BOWL, BOTTLE, NONE
