@@ -14,7 +14,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -167,6 +166,15 @@ public class CustomFoodEditInv implements InventoryHolder {
                         loreList.add(ChatColor.GRAY + "Current sound: " + sound);
                         itemStack = createNormalItem(Material.JUKEBOX, ChatColor.WHITE + "Sound", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
+                    case PotionColor:
+                        String colorName = customFoodUtil.getPotionColor(internalName);
+                        if (colorName == null) {
+                            colorName = "";
+                        }
+                        loreList.add(ChatColor.GRAY + "Current Color: " + colorName);
+                        itemStack = createNormalItem(Material.GLASS_BOTTLE, ChatColor.WHITE + "Potion Color", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
+
                 }
                 customFoodEditInv.setItem(slot, itemStack);
                 count++;
@@ -233,6 +241,12 @@ public class CustomFoodEditInv implements InventoryHolder {
                 }
             }
             if (itemStack != null) {
+                if (itemStack.getType() == Material.POTION) {
+                    customFoodUtil.applyPotionColor(itemStack, internalName);
+                }
+                if (customFoodUtil.hasEnchant(internalName)) {
+                    customFoodUtil.applyEnchantment(itemStack, internalName);
+                }
                 customFoodEditInv.setItem(gui_count, itemStack);
                 gui_count++;
                 if (gui_count >= 45) {

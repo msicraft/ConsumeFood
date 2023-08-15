@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
@@ -235,6 +236,9 @@ public class CustomFoodUtil {
             }
         }
         if (itemStack != null) {
+            if (itemStack.getType() == Material.POTION) {
+                applyPotionColor(itemStack, internalName);
+            }
             addCustomFoodDataTag(itemStack, internalName);
             if (hasEnchant(internalName)) {
                 applyEnchantment(itemStack, internalName);
@@ -426,6 +430,14 @@ public class CustomFoodUtil {
         return sound;
     }
 
+    public String getPotionColor(String internalName) {
+        String colorName = null;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".PotionColor")) {
+            colorName = ConsumeFood.customFoodConfig.getConfig().getString("CustomFood." + internalName + ".PotionColor");
+        }
+        return colorName;
+    }
+
     public void addDisableTag(ItemStack itemStack, String dataKey) { //key= DisableCrafting, DisableSmelting, DisableAnvil, DisableEnchant
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
@@ -488,6 +500,26 @@ public class CustomFoodUtil {
         return check;
     }
 
+    public void applyPotionColor(ItemStack itemStack, String internalName) {
+        String colorCode = getPotionColor(internalName);
+        if (colorCode != null && !colorCode.equals("")) {
+            String a = "#" + colorCode.toUpperCase();
+            Color color;
+            java.awt.Color awtColor;
+            try {
+                awtColor = java.awt.Color.decode(a);
+                color = Color.fromBGR(awtColor.getBlue(), awtColor.getGreen(), awtColor.getRed());
+            } catch (IllegalArgumentException | NullPointerException e) {
+                e.printStackTrace();
+                color = Color.WHITE;
+            }
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            PotionMeta potionMeta = (PotionMeta) itemMeta;
+            potionMeta.setColor(color);
+            itemStack.setItemMeta(potionMeta);
+        }
+    }
+
     private final FoodDietUtil foodDietUtil = new FoodDietUtil();
     private final PlayerHungerUtil playerHungerUtil = new PlayerHungerUtil();
 
@@ -525,13 +557,6 @@ public class CustomFoodUtil {
         if (hasCommand(internalName)) {
             applyExecuteCommand(player, internalName);
         }
-        if (slot == EquipmentSlot.HAND) {
-            itemStack = player.getInventory().getItemInMainHand();
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        } else if (slot == EquipmentSlot.OFF_HAND) {
-            itemStack = player.getInventory().getItemInOffHand();
-            player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
-        }
         if (Util.isReturnBowlOrBottleEnabled()) {
             Util.putInType putInType = Util.getInBowlOrBottleType(itemStack);
             ItemStack putItemStack = null;
@@ -551,6 +576,13 @@ public class CustomFoodUtil {
                     player.getInventory().addItem(putItemStack);
                 }
             }
+        }
+        if (slot == EquipmentSlot.HAND) {
+            itemStack = player.getInventory().getItemInMainHand();
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        } else if (slot == EquipmentSlot.OFF_HAND) {
+            itemStack = player.getInventory().getItemInOffHand();
+            player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
         }
         String sound = getSound(internalName);
         if (sound != null) {

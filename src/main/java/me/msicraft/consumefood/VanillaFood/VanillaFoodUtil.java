@@ -219,11 +219,6 @@ public class VanillaFoodUtil {
         if (hasCommand(vanillaFoodEnum)) {
             applyExecuteCommand(player, vanillaFoodEnum);
         }
-        if (slot == EquipmentSlot.HAND) {
-            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
-        } else if (slot == EquipmentSlot.OFF_HAND) {
-            player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
-        }
         if (Util.isReturnBowlOrBottleEnabled()) {
             Util.putInType putInType = Util.getInBowlOrBottleType(itemStack);
             ItemStack putItemStack = null;
@@ -243,6 +238,11 @@ public class VanillaFoodUtil {
                     player.getInventory().addItem(putItemStack);
                 }
             }
+        }
+        if (slot == EquipmentSlot.HAND) {
+            player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+        } else if (slot == EquipmentSlot.OFF_HAND) {
+            player.getInventory().getItemInOffHand().setAmount(player.getInventory().getItemInOffHand().getAmount() - 1);
         }
     }
 

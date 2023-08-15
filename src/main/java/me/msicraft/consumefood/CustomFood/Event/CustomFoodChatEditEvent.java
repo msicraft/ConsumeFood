@@ -105,6 +105,7 @@ public class CustomFoodChatEditEvent implements Listener {
                     case Name:
                     case TextureValue:
                     case Sound:
+                    case PotionColor:
                         ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + customFoodEditEnum.name(), message);
                         break;
                     case Cooldown:

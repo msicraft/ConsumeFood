@@ -395,6 +395,19 @@ public class CustomFoodEditInvEvent implements Listener {
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, "");
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
+                                        break;
+                                    case "PotionColor":
+                                        if (clickType == ClickType.LEFT) {
+                                            player.sendMessage(ChatColor.YELLOW + "========================================");
+                                            player.sendMessage(ChatColor.GRAY + " Please enter color name");
+                                            player.sendMessage(ChatColor.GRAY + " Example: white -> FFFFFF / black -> 000000");
+                                            player.sendMessage(ChatColor.GRAY + " Cancel when entering 'cancel'");
+                                            player.sendMessage(ChatColor.YELLOW + "========================================");
+                                        } else {
+                                            isUseEdit = false;
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, null);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                        }
                                 }
                                 if (isUseEdit) {
                                     player.closeInventory();
