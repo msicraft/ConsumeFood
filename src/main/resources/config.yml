@@ -49,7 +49,7 @@ FoodDiet:
 # 'Sprint-FoodLevel' is the minimum foodlevel at which the player can run.
 # 'Sprint-FoodLevel' is applied only when 'Sync-CustomFoodLevel' is true.
 CustomSetting:
-  Enabled-CustomFoodLevel: true
+  Enabled-CustomFoodLevel: false
   Sync-CustomFoodLevel: true
   Max-FoodLevel: 20
   Max-Saturation: 10
