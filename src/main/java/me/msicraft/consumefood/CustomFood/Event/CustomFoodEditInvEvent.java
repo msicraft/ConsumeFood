@@ -335,6 +335,18 @@ public class CustomFoodEditInvEvent implements Listener {
                                             isUseEdit = false;
                                         }
                                         break;
+                                    case "HidePotionEffect":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.hidePotionEffect(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
                                     case "DisableCrafting":
                                         if (clickType == ClickType.LEFT) {
                                             isUseEdit = false;

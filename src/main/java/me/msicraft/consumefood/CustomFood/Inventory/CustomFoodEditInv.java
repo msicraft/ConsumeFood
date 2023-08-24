@@ -122,6 +122,15 @@ public class CustomFoodEditInv implements InventoryHolder {
                         temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.hideEnchant(internalName));
                         itemStack = createNormalItem(Material.NETHER_STAR, ChatColor.WHITE + "Hide Enchant", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
+                    case HidePotionEffect:
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.hidePotionEffect(internalName));
+                        itemStack = createNormalItem(Material.NETHER_STAR, ChatColor.WHITE + "Hide PotionEffect", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
                     case DisableCrafting:
                         if (!temp.isEmpty()) {
                             temp.clear();
@@ -247,6 +256,7 @@ public class CustomFoodEditInv implements InventoryHolder {
                 if (customFoodUtil.hasEnchant(internalName)) {
                     customFoodUtil.applyEnchantment(itemStack, internalName);
                 }
+                customFoodUtil.applyItemFlags(itemStack, internalName);
                 customFoodEditInv.setItem(gui_count, itemStack);
                 gui_count++;
                 if (gui_count >= 45) {

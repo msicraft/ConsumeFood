@@ -255,6 +255,7 @@ public class CustomFoodUtil {
             if (getDisableEnchant(internalName)) {
                 addDisableTag(itemStack, CustomFoodEditEnum.DisableEnchant.name());
             }
+            applyItemFlags(itemStack, internalName);
         }
         return itemStack;
     }
@@ -364,6 +365,19 @@ public class CustomFoodUtil {
         return !getEnchantList(internalName).isEmpty();
     }
 
+    public void applyItemFlags(ItemStack itemStack, String internalName) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            if (hideEnchant(internalName)) {
+                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
+            if (hidePotionEffect(internalName)) {
+                itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+            }
+            itemStack.setItemMeta(itemMeta);
+        }
+    }
+
     public void applyEnchantment(ItemStack itemStack, String internalName) {
         List<String> enchantList = getEnchantList(internalName);
         for (String enchants: enchantList) {
@@ -375,17 +389,20 @@ public class CustomFoodUtil {
                 itemStack.addUnsafeEnchantment(enchantment, level);
             }
         }
-        if (hideEnchant(internalName)) {
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            itemStack.setItemMeta(itemMeta);
-        }
     }
 
     public boolean hideEnchant(String internalName) {
         boolean check = false;
         if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".HideEnchant")) {
             check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".HideEnchant");
+        }
+        return check;
+    }
+
+    public boolean hidePotionEffect(String internalName) {
+        boolean check = false;
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".HidePotionEffect")) {
+            check = ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".HidePotionEffect");
         }
         return check;
     }
