@@ -46,59 +46,80 @@ public class Util {
     }
 
     public String getReachMaxFoodLevel() {
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("Max-foodlevel.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("Max-foodlevel.Enabled");
         String a = "";
-        if (ConsumeFood.messageConfig.getConfig().contains("Max-foodlevel")) {
-            a = ConsumeFood.messageConfig.getConfig().getString("Max-foodlevel");
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("Max-foodlevel.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("Max-foodlevel.Message");
+            }
         }
         return a;
     }
 
     public String getReachMaxSaturation() {
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("Max-saturation.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("Max-saturation.Enabled");
         String a = "";
-        if (ConsumeFood.messageConfig.getConfig().contains("Max-saturation")) {
-            a = ConsumeFood.messageConfig.getConfig().getString("Max-saturation");
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("Max-saturation.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("Max-saturation.Message");
+            }
         }
         return a;
     }
 
     public String getVanillaGlobalCooldownMessage() {
-        String s = null;
-        if (ConsumeFood.messageConfig.getConfig().contains("VanillaFood-GlobalCooldown")) {
-            s = ConsumeFood.messageConfig.getConfig().getString("VanillaFood-GlobalCooldown");
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("VanillaFood-GlobalCooldown.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("VanillaFood-GlobalCooldown.Enabled");
+        String a = null;
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("VanillaFood-GlobalCooldown.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("VanillaFood-GlobalCooldown.Message");
+            }
         }
-        return s;
+        return a;
     }
 
     public String getVanillaPersonalCooldownMessage() {
-        String s = null;
-        if (ConsumeFood.messageConfig.getConfig().contains("VanillaFood-PersonalCooldown")) {
-            s = ConsumeFood.messageConfig.getConfig().getString("VanillaFood-PersonalCooldown");
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("VanillaFood-PersonalCooldown.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("VanillaFood-PersonalCooldown.Enabled");
+        String a = null;
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("VanillaFood-PersonalCooldown.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("VanillaFood-PersonalCooldown.Message");
+            }
         }
-        return s;
+        return a;
     }
 
     public String getCustomFoodGlobalCooldownMessage() {
-        String s = null;
-        if (ConsumeFood.messageConfig.getConfig().contains("Customfood-GlobalCooldown")) {
-            s = ConsumeFood.messageConfig.getConfig().getString("Customfood-GlobalCooldown");
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("Customfood-GlobalCooldown.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("Customfood-GlobalCooldown.Enabled");
+        String a = null;
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("Customfood-GlobalCooldown.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("Customfood-GlobalCooldown.Message");
+            }
         }
-        return s;
+        return a;
     }
 
     public String getCustomFoodPersonalCooldownMessage() {
-        String s = null;
-        if (ConsumeFood.messageConfig.getConfig().contains("Customfood-PersonalCooldown")) {
-            s = ConsumeFood.messageConfig.getConfig().getString("Customfood-PersonalCooldown");
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("Customfood-PersonalCooldown.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("Customfood-PersonalCooldown.Enabled");
+        String a = null;
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("Customfood-PersonalCooldown.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("Customfood-PersonalCooldown.Message");
+            }
         }
-        return s;
+        return a;
     }
 
     public String getPermissionErrorMessage() {
-        String s = null;
-        if (ConsumeFood.messageConfig.getConfig().contains("Permission-Error")) {
-            s = ConsumeFood.messageConfig.getConfig().getString("Permission-Error");
+        boolean isEnabled = ConsumeFood.messageConfig.getConfig().contains("Permission-Error.Enabled") && ConsumeFood.messageConfig.getConfig().getBoolean("Permission-Error.Enabled");
+        String a = null;
+        if (isEnabled) {
+            if (ConsumeFood.messageConfig.getConfig().contains("Permission-Error.Message")) {
+                a = ConsumeFood.messageConfig.getConfig().getString("Permission-Error.Message");
+            }
         }
-        return s;
+        return a;
     }
 
     public static boolean isReturnBowlOrBottleEnabled() {

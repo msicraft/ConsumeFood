@@ -1,8 +1,22 @@
-#If you don't need a message, leave a blank. Placeholders are available (ex. %player_name%)
-Customfood-GlobalCooldown: "Time left: <customfood_global_timeleft>"
-Customfood-PersonalCooldown: "<customfood_name> &fTime left: <customfood_personal_timeleft>"
-VanillaFood-GlobalCooldown: "Time left: <vanilla_global_timeleft>"
-VanillaFood-PersonalCooldown: "<food_name> Time left: <vanilla_personal_timeleft>"
-Max-foodlevel: "&aFood level reached the maximum value of <max_foodlevel>."
-Max-saturation: "&aSaturation reached the maximum value of <max_saturation>."
-Permission-Error: "&cYou don't have permission"
+#If you don't need the message, leave it blank or disable it. Placeholders are available (ex. %player_name%)
+Customfood-GlobalCooldown:
+  Enabled: false
+  Message: "Time left: <customfood_global_timeleft>"
+Customfood-PersonalCooldown:
+  Enabled: false
+  Message: "<customfood_name> &fTime left: <customfood_personal_timeleft>"
+VanillaFood-GlobalCooldown:
+  Enabled: false
+  Message: "Time left: <vanilla_global_timeleft>"
+VanillaFood-PersonalCooldown:
+  Enabled: false
+  Message: "<food_name> Time left: <vanilla_personal_timeleft>"
+Max-foodlevel:
+  Enabled: false
+  Message: "&aFood level reached the maximum value of <max_foodlevel>."
+Max-saturation:
+  Enabled: false
+  Message: "&aSaturation reached the maximum value of <max_saturation>."
+Permission-Error:
+  Enabled: false
+  Message: "&cYou don't have permission"
