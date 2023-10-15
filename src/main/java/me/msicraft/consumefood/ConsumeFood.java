@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public final class ConsumeFood extends JavaPlugin {
 
@@ -44,6 +45,11 @@ public final class ConsumeFood extends JavaPlugin {
     public static int bukkitBrandType; // 0 = can use paper-api | 1 = can't use paper-api
 
     protected FileConfiguration config;
+
+    private final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+    public Pattern getPattern() {
+        return pattern;
+    }
 
     public static boolean canUsePlaceHolderApi;
     public static boolean isQuestOrAchievementCompatibility;

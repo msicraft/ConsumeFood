@@ -17,6 +17,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PaperApiUtil {
 
@@ -48,6 +50,7 @@ public class PaperApiUtil {
     public static ItemStack getPaperApiPlayerHead_Inv(String name, int customModelData, UUID uuid, String textureValue, List<String> loreList, String internalName) {
         ItemStack itemStack = null;
         if (textureValue != null && uuid != null) {
+            Pattern pattern = ConsumeFood.getPlugin().getPattern();
             itemStack = new ItemStack(Material.PLAYER_HEAD, 1);
             CustomItemUtil.importType importType = CustomItemUtil.importType.SIMPLE;
             if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".ImportType")) {
@@ -64,6 +67,12 @@ public class PaperApiUtil {
             PersistentDataContainer data = skullMeta.getPersistentDataContainer();
             data.set(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-CustomFood-Edit"), PersistentDataType.STRING, internalName);
             if (name != null) {
+                Matcher matcher = pattern.matcher(name);
+                while (matcher.find()) {
+                    String c = name.substring(matcher.start(), matcher.end());
+                    name = name.replace(c, net.md_5.bungee.api.ChatColor.of(c) + "");
+                    matcher = pattern.matcher(name);
+                }
                 skullMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
             } else {
                 name = uuid.toString();
@@ -73,6 +82,12 @@ public class PaperApiUtil {
             }
             List<String> list = new ArrayList<>();
             for (String s : loreList) {
+                Matcher matcher = pattern.matcher(s);
+                while (matcher.find()) {
+                    String c = s.substring(matcher.start(), matcher.end());
+                    s = s.replace(c, net.md_5.bungee.api.ChatColor.of(c) + "");
+                    matcher = pattern.matcher(s);
+                }
                 list.add(ChatColor.translateAlternateColorCodes('&', s));
             }
             skullMeta.setLore(list);
@@ -86,6 +101,7 @@ public class PaperApiUtil {
 
     public static ItemStack getCustomFood_Inv(Material material ,String name, int customModelData, List<String> loreList, String internalName) {
         ItemStack itemStack = new ItemStack(material, 1);
+        Pattern pattern = ConsumeFood.getPlugin().getPattern();
         CustomItemUtil.importType importType = CustomItemUtil.importType.SIMPLE;
         if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".ImportType")) {
             importType = CustomItemUtil.importType.valueOf(ConsumeFood.customFoodConfig.getConfig().getString("CustomFood." + internalName + ".ImportType"));
@@ -101,6 +117,12 @@ public class PaperApiUtil {
         PersistentDataContainer data = itemMeta.getPersistentDataContainer();
         data.set(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-CustomFood-Edit"), PersistentDataType.STRING, internalName);
         if (name != null) {
+            Matcher matcher = pattern.matcher(name);
+            while (matcher.find()) {
+                String c = name.substring(matcher.start(), matcher.end());
+                name = name.replace(c, net.md_5.bungee.api.ChatColor.of(c) + "");
+                matcher = pattern.matcher(name);
+            }
             itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
         if (customModelData != -1) {
@@ -108,6 +130,12 @@ public class PaperApiUtil {
         }
         List<String> list = new ArrayList<>();
         for (String s : loreList) {
+            Matcher matcher = pattern.matcher(s);
+            while (matcher.find()) {
+                String c = s.substring(matcher.start(), matcher.end());
+                s = s.replace(c, net.md_5.bungee.api.ChatColor.of(c) + "");
+                matcher = pattern.matcher(s);
+            }
             list.add(ChatColor.translateAlternateColorCodes('&', s));
         }
         itemMeta.setLore(list);

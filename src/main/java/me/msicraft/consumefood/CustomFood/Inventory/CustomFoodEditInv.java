@@ -20,6 +20,8 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CustomFoodEditInv implements InventoryHolder {
 
@@ -43,6 +45,7 @@ public class CustomFoodEditInv implements InventoryHolder {
         addEditTag(itemStack, internalName);
         customFoodEditInv.setItem(4, itemStack);
         int count = 0;
+        Pattern pattern = ConsumeFood.getPlugin().getPattern();
         for (CustomFoodEditEnum customFoodEditEnum : CustomFoodEditEnum.values()) {
             if (customFoodEditEnum != CustomFoodEditEnum.isCreate && customFoodEditEnum != CustomFoodEditEnum.isEnabled) {
                 int slot = slots[count];
@@ -73,6 +76,12 @@ public class CustomFoodEditInv implements InventoryHolder {
                     case Lore:
                         loreList.add(ChatColor.GRAY + "Current Lore: ");
                         for (String s : customFoodUtil.getLore(internalName)) {
+                            Matcher matcher = pattern.matcher(s);
+                            while (matcher.find()) {
+                                String c = s.substring(matcher.start(), matcher.end());
+                                s = s.replace(c, net.md_5.bungee.api.ChatColor.of(c) + "");
+                                matcher = pattern.matcher(s);
+                            }
                             loreList.add(ChatColor.translateAlternateColorCodes('&', s));
                         }
                         itemStack = createNormalItem(Material.WRITABLE_BOOK, "Lore", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
