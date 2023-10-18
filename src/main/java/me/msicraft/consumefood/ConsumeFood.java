@@ -251,6 +251,7 @@ public final class ConsumeFood extends JavaPlugin {
         } else {
             FoodConsumeEvent.reloadVariables();
         }
+        FoodConsumeEvent.reloadBasicVariables();
         CustomFoodEvent.reloadVariables();
         FoodDietUtil.reloadVariables();
     }

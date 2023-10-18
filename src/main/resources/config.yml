@@ -4,6 +4,9 @@ config-version: 5 # Don't Touch This
 Compatibility:
   PlaceholderAPI: true
   Quest-or-Achievement: false
+  ItemsAdder:
+    Enabled: false
+    Ignore-Item: true #If true, Ignore items created with ItemsAdder
 
 # Food diet
 # Including custom food

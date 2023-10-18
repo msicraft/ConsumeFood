@@ -3,7 +3,7 @@ version: 2.2 #'${project.version}'
 main: me.msicraft.consumefood.ConsumeFood
 api-version: 1.16
 authors: [ msicraft ]
-softdepend: [NBTAPI, PlaceholderAPI]
+softdepend: [NBTAPI, PlaceholderAPI, ItemsAdder]
 description: ConsumeFood Plugin
 commands:
   consumefood:

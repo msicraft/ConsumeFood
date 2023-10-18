@@ -2,6 +2,7 @@ package me.msicraft.consumefood.VanillaFood.Event;
 
 import me.msicraft.consumefood.API.CustomEvent.VanillaFoodConsumeEvent;
 import me.msicraft.consumefood.API.Util.Util;
+import me.msicraft.consumefood.Compatibility.ItemsAdder.ItemsAdderUtil;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
@@ -34,13 +35,28 @@ public class FoodConsumeEvent implements Listener {
     public final HashMap<UUID, Long> vanillaFood_globalCooldownMap = new HashMap<>();
     public final HashMap<UUID, HashMap<String, Long>> vanillaFood_personalCooldownMap = new HashMap<>();
 
+    private static boolean isEnabledItemsAdder = false;
+    private static boolean isEnabledItemsAdder_IgnoreItemStack = false;
+
     public static void reloadVariables() {
         isEnabledMaxConsumable = ConsumeFood.getPlugin().getConfig().contains("Max-Consumable.Enabled") && ConsumeFood.getPlugin().getConfig().getBoolean("Max-Consumable.Enabled");
+    }
+
+    public static void reloadBasicVariables() {
+        isEnabledItemsAdder = ConsumeFood.getPlugin().getConfig().contains("Compatibility.ItemsAdder.Enabled") && ConsumeFood.getPlugin().getConfig().getBoolean("Compatibility.ItemsAdder.Enabled");
+        isEnabledItemsAdder_IgnoreItemStack = ConsumeFood.getPlugin().getConfig().contains("Compatibility.ItemsAdder.Ignore-Item") && ConsumeFood.getPlugin().getConfig().getBoolean("Compatibility.ItemsAdder.Ignore-Item");
     }
 
     @EventHandler
     public void onConsumeVanillaFood(PlayerItemConsumeEvent e) {
         ItemStack consumeItemStack = e.getItem();
+        if (isEnabledItemsAdder) {
+            if (isEnabledItemsAdder_IgnoreItemStack) {
+                if (ItemsAdderUtil.isItemsAdderItemStack(consumeItemStack)) {
+                    return;
+                }
+            }
+        }
         String foodName = consumeItemStack.getType().name().toUpperCase();
         if (vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && !customFoodUtil.isCustomFood(consumeItemStack)) {
             VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
