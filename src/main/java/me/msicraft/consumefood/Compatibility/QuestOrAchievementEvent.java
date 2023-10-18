@@ -2,11 +2,13 @@ package me.msicraft.consumefood.Compatibility;
 
 import me.msicraft.consumefood.API.CustomEvent.VanillaFoodConsumeEvent;
 import me.msicraft.consumefood.API.Util.Util;
+import me.msicraft.consumefood.Compatibility.ItemsAdder.ItemsAdderUtil;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.PlaceHolderApiUtil;
 import me.msicraft.consumefood.ConsumeFood;
 import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.Enum.VanillaFoodEnum;
 import me.msicraft.consumefood.PlayerHunger.PlayerHungerUtil;
+import me.msicraft.consumefood.VanillaFood.Event.FoodConsumeEvent;
 import me.msicraft.consumefood.VanillaFood.VanillaFoodUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,6 +48,13 @@ public class QuestOrAchievementEvent implements Listener {
     @EventHandler
     public void vanillaItemConsume(PlayerItemConsumeEvent e) {
         ItemStack consumeItemStack = e.getItem();
+        if (FoodConsumeEvent.isEnabledItemsAdder) {
+            if (FoodConsumeEvent.isEnabledItemsAdder_IgnoreItemStack) {
+                if (ItemsAdderUtil.isItemsAdderItemStack(consumeItemStack)) {
+                    return;
+                }
+            }
+        }
         String foodName = consumeItemStack.getType().name().toUpperCase();
         if (vanillaFoodUtil.isVanillaFood(foodName, consumeItemStack) && !customFoodUtil.isCustomFood(consumeItemStack)) {
             VanillaFoodEnum vanillaFoodEnum = VanillaFoodEnum.valueOf(foodName);
@@ -180,6 +189,13 @@ public class QuestOrAchievementEvent implements Listener {
     public void playerFoodLevelChange(FoodLevelChangeEvent e) {
         if (ConsumeFood.isQuestOrAchievementCompatibility) {
             ItemStack itemStack = e.getItem();
+            if (FoodConsumeEvent.isEnabledItemsAdder) {
+                if (FoodConsumeEvent.isEnabledItemsAdder_IgnoreItemStack) {
+                    if (ItemsAdderUtil.isItemsAdderItemStack(itemStack)) {
+                        return;
+                    }
+                }
+            }
             Player player = (Player) e.getEntity();
             if (isChange.containsKey(player.getUniqueId()) && isChange.get(player.getUniqueId())) {
                 if (itemStack != null) {
@@ -230,6 +246,13 @@ public class QuestOrAchievementEvent implements Listener {
     public void playerMaxConsumeVanillaFood(PlayerInteractEvent e) {
         if (isEnabledMaxConsumable) {
             ItemStack consumeItemStack = e.getItem();
+            if (FoodConsumeEvent.isEnabledItemsAdder) {
+                if (FoodConsumeEvent.isEnabledItemsAdder_IgnoreItemStack) {
+                    if (ItemsAdderUtil.isItemsAdderItemStack(consumeItemStack)) {
+                        return;
+                    }
+                }
+            }
             if (consumeItemStack != null && consumeItemStack.getType() != Material.AIR) {
                 Player player = e.getPlayer();
                 String foodName = consumeItemStack.getType().name().toUpperCase();

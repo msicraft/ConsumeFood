@@ -17,7 +17,7 @@ public class PlayerHungerEvent implements Listener {
         if (!ConsumeFood.isQuestOrAchievementCompatibility) {
             if (e.getEntity() instanceof Player) {
                 Player player = (Player) e.getEntity();
-                if (playerHungerUtil.isEnabledSync()) {
+                if (playerHungerUtil.isEnabledSync() && playerHungerUtil.isEnabled()) {
                     e.setCancelled(true);
                 }
                 int value = e.getFoodLevel() - player.getFoodLevel();

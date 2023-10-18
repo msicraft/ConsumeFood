@@ -35,8 +35,8 @@ public class FoodConsumeEvent implements Listener {
     public final HashMap<UUID, Long> vanillaFood_globalCooldownMap = new HashMap<>();
     public final HashMap<UUID, HashMap<String, Long>> vanillaFood_personalCooldownMap = new HashMap<>();
 
-    private static boolean isEnabledItemsAdder = false;
-    private static boolean isEnabledItemsAdder_IgnoreItemStack = false;
+    public static boolean isEnabledItemsAdder = false;
+    public static boolean isEnabledItemsAdder_IgnoreItemStack = false;
 
     public static void reloadVariables() {
         isEnabledMaxConsumable = ConsumeFood.getPlugin().getConfig().contains("Max-Consumable.Enabled") && ConsumeFood.getPlugin().getConfig().getBoolean("Max-Consumable.Enabled");
@@ -155,6 +155,13 @@ public class FoodConsumeEvent implements Listener {
     public void playerMaxConsumeVanillaFood(PlayerInteractEvent e) {
         if (isEnabledMaxConsumable) {
             ItemStack consumeItemStack = e.getItem();
+            if (isEnabledItemsAdder) {
+                if (isEnabledItemsAdder_IgnoreItemStack) {
+                    if (ItemsAdderUtil.isItemsAdderItemStack(consumeItemStack)) {
+                        return;
+                    }
+                }
+            }
             if (consumeItemStack != null && consumeItemStack.getType() != Material.AIR) {
                 Player player = e.getPlayer();
                 String foodName = consumeItemStack.getType().name().toUpperCase();
