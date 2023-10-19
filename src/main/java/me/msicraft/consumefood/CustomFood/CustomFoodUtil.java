@@ -256,6 +256,9 @@ public class CustomFoodUtil {
                 addDisableTag(itemStack, CustomFoodEditEnum.DisableEnchant.name());
             }
             applyItemFlags(itemStack, internalName);
+            if (getUnstackable(internalName)) {
+                addUnstackTag(itemStack);
+            }
         }
         return itemStack;
     }
@@ -455,12 +458,28 @@ public class CustomFoodUtil {
         return colorName;
     }
 
+    public boolean getUnstackable(String internalName) {
+        if (ConsumeFood.customFoodConfig.getConfig().contains("CustomFood." + internalName + ".Unstackable")) {
+            return ConsumeFood.customFoodConfig.getConfig().getBoolean("CustomFood." + internalName + ".Unstackable");
+        }
+        return false;
+    }
+
     public void addDisableTag(ItemStack itemStack, String dataKey) { //key= DisableCrafting, DisableSmelting, DisableAnvil, DisableEnchant
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
             PersistentDataContainer data = itemMeta.getPersistentDataContainer();
             String key = "ConsumeFood-" + dataKey;
             data.set(new NamespacedKey(ConsumeFood.getPlugin(), key),PersistentDataType.STRING, String.valueOf(true));
+        }
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    public void addUnstackTag(ItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+            data.set(new NamespacedKey(ConsumeFood.getPlugin(), "ConsumeFood-Unstackable"), PersistentDataType.STRING, UUID.randomUUID().toString());
         }
         itemStack.setItemMeta(itemMeta);
     }

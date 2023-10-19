@@ -420,6 +420,19 @@ public class CustomFoodEditInvEvent implements Listener {
                                             ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, null);
                                             ConsumeFood.customFoodConfig.saveConfig();
                                         }
+                                        break;
+                                    case "Unstackable":
+                                        if (clickType == ClickType.LEFT) {
+                                            isUseEdit = false;
+                                            boolean value = customFoodUtil.getUnstackable(internalName);
+                                            ConsumeFood.customFoodConfig.getConfig().set("CustomFood." + internalName + "." + var, !value);
+                                            ConsumeFood.customFoodConfig.saveConfig();
+                                            player.openInventory(customFoodEditInv.getInventory());
+                                            customFoodEditInv.editInv(internalName);
+                                        } else {
+                                            isUseEdit = false;
+                                        }
+                                        break;
                                 }
                                 if (isUseEdit) {
                                     player.closeInventory();

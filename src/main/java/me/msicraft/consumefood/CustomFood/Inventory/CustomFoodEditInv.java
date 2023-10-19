@@ -192,7 +192,15 @@ public class CustomFoodEditInv implements InventoryHolder {
                         loreList.add(ChatColor.GRAY + "Current Color: " + colorName);
                         itemStack = createNormalItem(Material.GLASS_BOTTLE, ChatColor.WHITE + "Potion Color", loreList, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
                         break;
-
+                    case Unstackable:
+                        if (!temp.isEmpty()) {
+                            temp.clear();
+                        }
+                        temp.add(ChatColor.YELLOW + "Left click: change value");
+                        temp.add("");
+                        temp.add(ChatColor.GRAY + "Current Value: " + customFoodUtil.getUnstackable(internalName));
+                        itemStack = createNormalItem(Material.LAVA_BUCKET, ChatColor.WHITE + "Unstackable", temp, "ConsumeFood-Edit-Var", customFoodEditEnum.name());
+                        break;
                 }
                 customFoodEditInv.setItem(slot, itemStack);
                 count++;
