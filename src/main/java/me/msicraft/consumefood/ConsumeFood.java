@@ -6,6 +6,7 @@ import me.msicraft.consumefood.Command.MainCommand;
 import me.msicraft.consumefood.Command.MainTabComplete;
 import me.msicraft.consumefood.Compatibility.PlaceholderApi.ConsumeFoodPlaceholder;
 import me.msicraft.consumefood.Compatibility.QuestOrAchievementEvent;
+import me.msicraft.consumefood.CustomFood.Action.ActionUtil;
 import me.msicraft.consumefood.CustomFood.CustomFoodUtil;
 import me.msicraft.consumefood.CustomFood.Event.*;
 import me.msicraft.consumefood.Enum.CustomFoodEditEnum;
@@ -246,6 +247,7 @@ public final class ConsumeFood extends JavaPlugin {
         messageConfig.reloadConfig();
         customFoodUtil.playerHeadUUIDCheck();
         util.configDataCheck();
+        ActionUtil.reloadVariables();
         if (isQuestOrAchievementCompatibility) {
             QuestOrAchievementEvent.reloadVariables();
         } else {

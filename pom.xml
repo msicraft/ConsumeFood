@@ -34,7 +34,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <outputDirectory>B:\Bukkit\1.16.5 spigot test\plugins</outputDirectory>
+                    <outputDirectory>B:\플러그인\ConsumeFood\Dev\2.3\1</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

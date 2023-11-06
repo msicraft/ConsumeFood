@@ -49,3 +49,9 @@ CustomFood:
     PotionEffect:
       - REGENERATION:1:10:1
     Command:
+  food_4:
+    Material: bread
+    Name: '&afood 4'
+    Lore:
+      - '&eTest Lore'
+    Action: give{internalname=food_1;amount=1} @rightclick
