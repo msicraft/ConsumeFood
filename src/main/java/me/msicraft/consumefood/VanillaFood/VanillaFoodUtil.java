@@ -117,21 +117,28 @@ public class VanillaFoodUtil {
     public void applyPotionEffect(Player player, VanillaFoodEnum vanillaFoodEnum) {
         List<String> potionEffects = ConsumeFood.getPlugin().getConfig().getStringList("Food." + vanillaFoodEnum.name() + ".PotionEffect");
         for (String effect : potionEffects) {
-            String[] a = effect.split(":");
-            PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
-            int level = Integer.parseInt(a[1]);
-            int duration = Integer.parseInt(a[2]);
-            double chance = Double.parseDouble(a[3]);
-            if (potionEffectType != null) {
-                if (random.nextDouble() <= chance) {
-                    int potionLevel = level - 1;
-                    if (potionLevel < 0) {
-                        potionLevel = 0;
+            try {
+                String[] a = effect.split(":");
+                PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
+                int level = Integer.parseInt(a[1]);
+                int duration = Integer.parseInt(a[2]);
+                double chance = Double.parseDouble(a[3]);
+                if (potionEffectType != null) {
+                    if (random.nextDouble() <= chance) {
+                        int potionLevel = level - 1;
+                        if (potionLevel < 0) {
+                            potionLevel = 0;
+                        }
+                        player.addPotionEffect(new PotionEffect(potionEffectType, (duration * 20), potionLevel));
                     }
-                    player.addPotionEffect(new PotionEffect(potionEffectType, (duration * 20), potionLevel));
+                } else {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Potion effect: " + ChatColor.WHITE + a[0] + " | Food: " + vanillaFoodEnum.name());
                 }
-            } else {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Potion effect: " + ChatColor.WHITE + a[0] + " | Food: " + vanillaFoodEnum.name());
+            } catch (ArrayIndexOutOfBoundsException | NumberFormatException | NullPointerException e) {
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid PotionEffect format=====");
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "VanillaFood: " + vanillaFoodEnum.name());
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + effect);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <potionType>:<level>:<duration>:<chance>");
             }
         }
     }
@@ -176,6 +183,10 @@ public class VanillaFoodUtil {
                     }
                     count++;
                 } catch (ArrayIndexOutOfBoundsException e) {
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid Command format=====");
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "VanillaFood: " + vanillaFoodEnum.name());
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + commands);
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <executeType>:<command>");
                     cancel();
                 }
             }

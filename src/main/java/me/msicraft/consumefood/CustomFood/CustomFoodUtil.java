@@ -306,21 +306,28 @@ public class CustomFoodUtil {
     public void applyPotionEffect(Player player, String internalName) {
         List<String> potionEffects = getPotionEffectList(internalName);
         for (String effect : potionEffects) {
-            String[] a = effect.split(":");
-            PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
-            int level = Integer.parseInt(a[1]);
-            int duration = Integer.parseInt(a[2]);
-            double chance = Double.parseDouble(a[3]);
-            if (potionEffectType != null) {
-                if (Math.random() <= chance) {
-                    int potionLevel = level - 1;
-                    if (potionLevel < 0) {
-                        potionLevel = 0;
+            try {
+                String[] a = effect.split(":");
+                PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
+                int level = Integer.parseInt(a[1]);
+                int duration = Integer.parseInt(a[2]);
+                double chance = Double.parseDouble(a[3]);
+                if (potionEffectType != null) {
+                    if (Math.random() <= chance) {
+                        int potionLevel = level - 1;
+                        if (potionLevel < 0) {
+                            potionLevel = 0;
+                        }
+                        player.addPotionEffect(new PotionEffect(potionEffectType, (duration * 20), potionLevel));
                     }
-                    player.addPotionEffect(new PotionEffect(potionEffectType, (duration * 20), potionLevel));
+                }  else {
+                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Potion effect: " + ChatColor.WHITE + a[0] + " | Custom Food: " + internalName);
                 }
-            }  else {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Potion effect: " + ChatColor.WHITE + a[0] + " | Custom Food: " + internalName);
+            } catch (ArrayIndexOutOfBoundsException | NumberFormatException | NullPointerException e) {
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid PotionEffect format=====");
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "InternalName: " + internalName);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + effect);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <potionType>:<level>:<duration>:<chance>");
             }
         }
     }
@@ -358,6 +365,10 @@ public class CustomFoodUtil {
                     }
                     count++;
                 } catch (ArrayIndexOutOfBoundsException e) {
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid Command format=====");
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "InternalName: " + internalName);
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + commands);
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <executeType>:<command>");
                     cancel();
                 }
             }
@@ -384,12 +395,19 @@ public class CustomFoodUtil {
     public void applyEnchantment(ItemStack itemStack, String internalName) {
         List<String> enchantList = getEnchantList(internalName);
         for (String enchants: enchantList) {
-            String[] a = enchants.split(":");
-            String enchantS = a[0];
-            int level = Integer.parseInt(a[1]);
-            Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantS));
-            if (enchantment != null) {
-                itemStack.addUnsafeEnchantment(enchantment, level);
+            try {
+                String[] a = enchants.split(":");
+                String enchantS = a[0];
+                int level = Integer.parseInt(a[1]);
+                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantS));
+                if (enchantment != null) {
+                    itemStack.addUnsafeEnchantment(enchantment, level);
+                }
+            } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid Enchant format=====");
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "InternalName: " + internalName);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + enchants);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <enchant>:<level>");
             }
         }
     }
@@ -546,7 +564,6 @@ public class CustomFoodUtil {
                 awtColor = java.awt.Color.decode(a);
                 color = Color.fromBGR(awtColor.getBlue(), awtColor.getGreen(), awtColor.getRed());
             } catch (IllegalArgumentException | NullPointerException e) {
-                e.printStackTrace();
                 color = Color.WHITE;
             }
             ItemMeta itemMeta = itemStack.getItemMeta();
@@ -622,17 +639,25 @@ public class CustomFoodUtil {
         }
         String sound = getSound(internalName);
         if (sound != null) {
-            String[] s = sound.split(":");
-            String soundName = s[0];
-            float volume = Float.parseFloat(s[1]);
-            float pitch = Float.parseFloat(s[2]);
+            String soundName = null;
+            float volume = 1;
+            float pitch = 1;
             SoundCategory soundCategory = SoundCategory.MASTER;
             try {
+                String[] s = sound.split(":");
+                soundName = s[0];
+                volume = Float.parseFloat(s[1]);
+                pitch = Float.parseFloat(s[2]);
                 soundCategory = SoundCategory.valueOf(s[3].toUpperCase());
             } catch (IllegalArgumentException | NullPointerException e) {
-                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + " wrong sound category: " + ChatColor.WHITE + internalName);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid Sound format=====");
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "InternalName: " + internalName);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + sound);
+                Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <sound>:<volume>:<pitch>:<category>");
             }
-            player.playSound(player.getLocation(), soundName, soundCategory, volume, pitch);
+            if (soundName != null) {
+                player.playSound(player.getLocation(), soundName, soundCategory, volume, pitch);
+            }
         }
     }
 

@@ -86,21 +86,28 @@ public class FoodDietUtil {
         List<String> potionEffects = getPotionEffects(count);
         if (!potionEffects.isEmpty()) {
             for (String s : potionEffects) {
-                String[] a = s.split(":");
-                PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
-                int level = Integer.parseInt(a[1]);
-                int duration = Integer.parseInt(a[2]);
-                double chance = Double.parseDouble(a[3]);
-                if (potionEffectType != null) {
-                    if (Math.random() <= chance) {
-                        int potionLevel = level - 1;
-                        if (potionLevel < 0) {
-                            potionLevel = 0;
+                try {
+                    String[] a = s.split(":");
+                    PotionEffectType potionEffectType = PotionEffectType.getByName(a[0].toUpperCase());
+                    int level = Integer.parseInt(a[1]);
+                    int duration = Integer.parseInt(a[2]);
+                    double chance = Double.parseDouble(a[3]);
+                    if (potionEffectType != null) {
+                        if (Math.random() <= chance) {
+                            int potionLevel = level - 1;
+                            if (potionLevel < 0) {
+                                potionLevel = 0;
+                            }
+                            player.addPotionEffect(new PotionEffect(potionEffectType, (duration * 20), potionLevel));
                         }
-                        player.addPotionEffect(new PotionEffect(potionEffectType, (duration * 20), potionLevel));
+                    } else {
+                        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Potion effect: " + ChatColor.WHITE + a[0] + " | PenaltyCount: " + count);
                     }
-                } else {
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + ConsumeFood.prefix + ChatColor.RED + " Invalid Potion effect: " + ChatColor.WHITE + a[0] + " | PenaltyCount: " + count);
+                } catch (ArrayIndexOutOfBoundsException | NumberFormatException | NullPointerException e) {
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.RED + "=====Invalid PotionEffect format=====");
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Penalty Count: " + count);
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Invalid line: " + s);
+                    Bukkit.getConsoleSender().sendMessage(ConsumeFood.prefix + ChatColor.YELLOW + "Format: <potionType>:<level>:<duration>:<chance>");
                 }
             }
         }
