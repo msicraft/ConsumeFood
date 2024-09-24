@@ -17,9 +17,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MainCommand implements CommandExecutor {
 
@@ -51,6 +51,18 @@ public class MainCommand implements CommandExecutor {
                 String var = args[0];
                 if (var != null) {
                     switch (var) {
+                        case "test":
+                            int size = PotionEffectType.values().length;
+                            String[] arrays = new String[size];
+                            int count = 0;
+                            for (PotionEffectType potionEffectType : PotionEffectType.values()) {
+                                arrays[count] = potionEffectType.getName();
+                                count++;
+                            }
+                            Arrays.sort(arrays);
+                            for (String s : arrays) {
+                                System.out.println("PotionEffectTypeName: " + s);
+                            }
                         case "help":
                             if (!sender.hasPermission("consumefood.command.help")) {
                                 sendPermissionMessage(sender);

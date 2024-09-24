@@ -352,6 +352,12 @@ public class CustomFoodUtil {
                 try {
                     String sender = a[0].toLowerCase();
                     String command = a[1];
+                    int length = a.length;
+                    if (length > 2) {
+                        for (int i = 2; i<length; i++) {
+                            command = command + ":" +a[i];
+                        }
+                    }
                     String replace_command;
                     if (ConsumeFood.canUsePlaceHolderApi) {
                         replace_command = PlaceHolderApiUtil.getApplyPlaceHolder(player, command);
